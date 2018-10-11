@@ -125,12 +125,12 @@ elif [ "$1" == "-ADJoin" ]; then
 	done
 	
 	# Set the computer to not sleep
-	echo "Setting the computer to never sleep as to not affect the downloads"
-	sleep 1
-	sudo systemsetup -setsleep Never
-	sudo systemsetup -setcomputersleep Never
-	sudo systemsetup -setdisplaysleep Never
-	defaults -currentHost write com.apple.screensaver idleTime 0
+	#echo "Setting the computer to never sleep as to not affect the downloads"
+	#sleep 1
+	#sudo systemsetup -setsleep Never
+	#sudo systemsetup -setcomputersleep Never
+	#sudo systemsetup -setdisplaysleep Never
+	#defaults -currentHost write com.apple.screensaver idleTime 0
 
 	
 	echo "A lot of text is about to appear, but that's okay!"
