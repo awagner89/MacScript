@@ -25,10 +25,10 @@ Setup macOS out of the box and create Admin profile (latest OS version pre-insta
 -Click Agree.
 -Click Agree.
 -Create a computer account with the following info and click Continue:
-    -Full name: Admin
-    -Account name: Admin
-    -Password: (current admin password)
-    -Hint: Standard
+	-Full name: Admin
+	-Account name: Admin
+	-Password: (current admin password)
+	-Hint: Standard
 -Set time zone based on current location should be checked.
 -Uncheck both boxes in the Diagnostics & Usage screen and click Continue.
 -Uncheck Enable Siri on this Mac and click Continue.
@@ -40,10 +40,10 @@ Setup macOS out of the box and create Admin profile (latest OS version pre-insta
 -Drag the file to the terminal window to auto fill the path to the shell file
 -Before hitting enter add to the end of the current command "-ADJoin"
 -It will look something like this: 
-    -caffeinate -i sh Path/To/File/MacScript.sh -ADJoin
+	-caffeinate -i sh Path/To/File/MacScript.sh -ADJoin
 -IF YOU GET AN ERROR RUNNING IT:
-    -In terminal type "chmod a+x " and then drag the file to terminal and then try it again
-    -chmod a+x Path/To/File/MacScript_vX.sh
+	-In terminal type "chmod a+x " and then drag the file to terminal and then try it again
+	-chmod a+x Path/To/File/MacScript_vX.sh
 -The script will make a copy of itself in /Users/Shared for later use
 -At the first prompt you are modifying the name of the computer, type in the users first initial and last name.
 -If their name was Neil Johnson it would be NJOHNSON (also, if this is a refresh, make sure to increment the name of the computer by 1)
@@ -57,15 +57,15 @@ Setup macOS out of the box and create Admin profile (latest OS version pre-insta
 -If you correctly typed the information in you will see a large amount of text appear where it will install Homebrew to assist with loading the applications.
 -As a heads up, you may be prompted for the admin password for the computer as applications download (usually occurs on the first program, adobe reader).
 -The script is automated from here for a bit, during this section it will:
-    -Download programs:
-    -Google Chrome
-    -Adobe Acrobat
-    -Microsoft Office Suite
-    -Zoom
-    -DropBox
-    -Slack
-    -Reformats the applications on the admin dock to ensure that they are all loaded properly
-    -Enable FireWall
+	-Download programs:
+	-Google Chrome
+	-Adobe Acrobat
+	-Microsoft Office Suite
+	-Zoom
+	-DropBox
+	-Slack
+	-Reformats the applications on the admin dock to ensure that they are all loaded properly
+	-Enable FireWall
 -Click on System Preferences → Users & Groups → Login Options
 -Click on the Lock and type in the Administrator Password.
 -Locate the options button to the right of Allow network users to log in at the login window
