@@ -78,7 +78,7 @@ elif [ "$1" == "-ADJoin" ]; then
 
 	my_name=$(basename -- "$0")
 	# Make a copy of the script in the shared folder
-	echo Making a copy of the script in the shared folder "/Users/Shared"
+	echo 'Making a copy of the script in the shared folder "/Users/Shared"'
 	mydir=$(dirname "$0")
 	cp "${mydir}"/"${my_name}" /Users/Shared
 	
@@ -295,7 +295,8 @@ elif [ "$1" == "-setup" ]; then
 	sleep 3
 	
 	echo "Time for cleanup, when ready press enter"
-	read -p "then type in the admin password which will run the cleanup portion of the script"
+	sleep 1
+	read -p "Type in the admin password"
  	
 	su admin -c "/Users/Shared/'${my_name}' cleanup"
 	
