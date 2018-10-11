@@ -74,7 +74,7 @@ elif [ "$1" == "-ADJoin" ]; then
 	echo "Here's the Serial Number:"
 	sleep 1
 	system_profiler |grep "Serial Number (system)"
-	read -p "Press Enter when ready to continue"
+	read -p "Press Enter when ready to continue with the script"
 
 	my_name=$(basename -- "$0")
 	# Make a copy of the script in the shared folder
