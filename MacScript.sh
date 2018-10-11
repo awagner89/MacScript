@@ -71,9 +71,7 @@ elif [ "$1" == "-ADJoin" ]; then
 
 	echo "Don't forget to add this computer to SmartSheets"
 	sleep 1
-	echo "Here's the Serial Number:"
-	sleep 1
-	system_profiler |grep "Serial Number (system)"
+	
 	read -p "Press Enter when ready to continue with the script"
 
 	my_name=$(basename -- "$0")
