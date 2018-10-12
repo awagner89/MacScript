@@ -123,6 +123,8 @@ elif [ "$1" == "-ADJoin" ]; then
 		  sudo -k
 		fi
 	done
+
+	sudo chmod a+x /User/Shared/"${my_name}"
 	
 	# Set the computer to not sleep
 	#echo "Setting the computer to never sleep as to not affect the downloads"
