@@ -298,7 +298,7 @@ elif [ "$1" == "-setup" ]; then
 	sleep 1
 	read -p "Type in the admin password"
  	
-	su admin -c "/Users/Shared/'${my_name}' cleanup"
+	su admin -c "sh /Users/Shared/'${my_name}' cleanup"
 	
 elif [ "$1" == "-appLoad" ]; then
 	my_name=$(basename -- "$0")
