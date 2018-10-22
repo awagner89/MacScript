@@ -67,6 +67,7 @@ if [ "$1" == "-renameComputer" ]; then
 	echo "What would you like to name the computer?"
 	read compName
 	scutil --set ComputerName $compName
+	
 elif [ "$1" == "-ADJoin" ]; then
 
 	echo "Don't forget to add this computer to SmartSheets"
