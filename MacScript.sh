@@ -125,7 +125,7 @@ elif [ "$1" == "-ADJoin" ]; then
 		fi
 	done
 
-	chmod a+x /User/Shared/"${my_name}"
+	chmod a+x /Users/Shared/"${my_name}"
 	
 	# Set the computer to not sleep
 	#echo "Setting the computer to never sleep as to not affect the downloads"
@@ -336,7 +336,7 @@ elif [ "$1" == "-appLoad" ]; then
 	appLayout
 	
 	# Cleanup the unneeded files
-	brew cask cleanup
+	brew cleanup
 	
 	# Allow other users to utilize Homebrew
 	# chgrp -R admin /usr/local/*
