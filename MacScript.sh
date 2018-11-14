@@ -17,11 +17,57 @@ function reloadApps() {
 	brew cask install zoomus-outlook-plugin
 	brew cask install teamviewer
 	brew cask install dropbox
-	brew cask install google-chrome
-	brew cask install slack
+	#brew cask install google-chrome
+	#brew cask install slack
 	
 	# Redo the application layout
 	appLayout
+}
+
+function userLoadApps() {
+	# Install the applications that require user permissions
+	brew cask install google-chrome
+	brew cask install slack
+
+	# Redo the application layout
+	userAppLayout
+}
+
+function userAppLayout() {
+	# Set the Dock to default values
+	defaults delete com.apple.dock; killall Dock
+
+	# Remove all unneccessary Applications
+	dockutil --remove Siri
+	dockutil --remove Mail
+	dockutil --remove Contacts
+	dockutil --remove Calendar
+	dockutil --remove Notes
+	dockutil --remove Reminders
+	dockutil --remove Maps
+	dockutil --remove Photos
+	dockutil --remove Messages
+	dockutil --remove FaceTime
+	dockutil --remove Pages
+	dockutil --remove Numbers
+	dockutil --remove Keynote
+	dockutil --remove iTunes
+	dockutil --remove iBooks
+	dockutil --remove Safari
+	dockutil --remove App\ Store
+	dockutil --remove System\ Preferences
+
+	dockutil --add /Applications/Safari.app
+	dockutil --add /Applications/Google\ Chrome.app
+	dockutil --add /Applications/Slack.app
+	dockutil --add /Applications/Adobe\ Acrobat\ Reader\ DC.app
+	dockutil --add /Applications/Microsoft\ Outlook.app
+	dockutil --add /Applications/Microsoft\ Powerpoint.app
+	dockutil --add /Applications/Microsoft\ Word.app
+	dockutil --add /Applications/Microsoft\ Excel.app
+	dockutil --add /Applications/Zoom.us.app
+	dockutil --add /Applications/TeamViewer.app
+	dockutil --add /Applications/System\ Preferences.app
 }
 
 function appLayout() {
@@ -49,8 +95,8 @@ function appLayout() {
 	dockutil --remove System\ Preferences
 
 	dockutil --add /Applications/Safari.app
-	dockutil --add /Applications/Google\ Chrome.app
-	dockutil --add /Applications/Slack.app
+	#dockutil --add /Applications/Google\ Chrome.app
+	#dockutil --add /Applications/Slack.app
 	dockutil --add /Applications/Adobe\ Acrobat\ Reader\ DC.app
 	dockutil --add /Applications/Microsoft\ Outlook.app
 	dockutil --add /Applications/Microsoft\ Powerpoint.app
@@ -258,8 +304,8 @@ elif [ "$1" == "-setup" ]; then
 	echo "Added $currUser as an administrator for the computer!"
 	sleep 1
 
-	# Set Dock layout
-	appLayout
+	# Load remaining applications and redo the layout
+	userLoadApps
 
 	# Download Meraki onto the computer
 	echo "Opening Safari for you to install Meraki onto the computer"
