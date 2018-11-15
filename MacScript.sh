@@ -17,8 +17,8 @@ function reloadApps() {
 	brew cask install zoomus-outlook-plugin
 	brew cask install teamviewer
 	brew cask install dropbox
-	#brew cask install google-chrome
-	#brew cask install slack
+	brew cask install google-chrome
+	brew cask install slack
 	
 	# Redo the application layout
 	appLayout
@@ -315,9 +315,9 @@ elif [ "$1" == "-setup" ]; then
 	
 	sleep 3
 	
-	echo "Time for cleanup, when ready press enter"
+	read -p "Time for cleanup, when ready to proceed press enter"
 	sleep 1
-	read -p "Type in the admin password"
+	echo "Type in the admin password"
  	
 	su admin -c "sh /Users/Shared/'${my_name}' cleanup"
 	
@@ -544,7 +544,6 @@ elif [ "$1" == "-permissions" ]; then
 	echo "Type in Admin Password"
 	sudo -v
 	# Add permissions for App Setup
-
 	sudo xattr -d -r com.apple.quarantine /Applications/Slack.app
 	sudo xattr -d -r com.apple.quarantine /Applications/Google\ Chrome.app
 	sudo xattr -d -r com.apple.quarantine /Applications/Adobe\ Acrobat\ Reader\ DC.app
