@@ -24,16 +24,7 @@ function reloadApps() {
 	appLayout
 }
 
-function userLoadApps() {
-	# Install the applications that require user permissions
-	brew cask install google-chrome
-	brew cask install slack
-
-	# Redo the application layout
-	userAppLayout
-}
-
-function userAppLayout() {
+function appLayout() {
 	# Set the Dock to default values
 	defaults delete com.apple.dock; killall Dock
 
@@ -60,43 +51,6 @@ function userAppLayout() {
 	dockutil --add /Applications/Safari.app
 	dockutil --add /Applications/Google\ Chrome.app
 	dockutil --add /Applications/Slack.app
-	dockutil --add /Applications/Adobe\ Acrobat\ Reader\ DC.app
-	dockutil --add /Applications/Microsoft\ Outlook.app
-	dockutil --add /Applications/Microsoft\ Powerpoint.app
-	dockutil --add /Applications/Microsoft\ Word.app
-	dockutil --add /Applications/Microsoft\ Excel.app
-	dockutil --add /Applications/Zoom.us.app
-	dockutil --add /Applications/TeamViewer.app
-	dockutil --add /Applications/System\ Preferences.app
-}
-
-function appLayout() {
-	# Set the Dock to default values
-	defaults delete com.apple.dock; killall Dock
-
-	# Remove all unneccessary Applications
-	dockutil --remove Siri
-	dockutil --remove Mail
-	dockutil --remove Contacts
-	dockutil --remove Calendar
-	dockutil --remove Notes
-	dockutil --remove Reminders
-	dockutil --remove Maps
-	dockutil --remove Photos
-	dockutil --remove Messages
-	dockutil --remove FaceTime
-	dockutil --remove Pages
-	dockutil --remove Numbers
-	dockutil --remove Keynote
-	dockutil --remove iTunes
-	dockutil --remove iBooks
-	dockutil --remove Safari
-	dockutil --remove App\ Store
-	dockutil --remove System\ Preferences
-
-	dockutil --add /Applications/Safari.app
-	#dockutil --add /Applications/Google\ Chrome.app
-	#dockutil --add /Applications/Slack.app
 	dockutil --add /Applications/Adobe\ Acrobat\ Reader\ DC.app
 	dockutil --add /Applications/Microsoft\ Outlook.app
 	dockutil --add /Applications/Microsoft\ Powerpoint.app
@@ -205,6 +159,20 @@ elif [ "$1" == "-ADJoin" ]; then
 
 	# Set the applications to the dock properly
 	appLayout
+
+	# Add permissions for App Setup
+	"$adminPW" | sudo -S -v
+
+	sudo xattr -d -r com.apple.quarantine /Applications/Slack.app
+	sudo xattr -d -r com.apple.quarantine /Applications/Google\ Chrome.app
+	sudo xattr -d -r com.apple.quarantine /Applications/Adobe\ Acrobat\ Reader\ DC.app
+	sudo xattr -d -r com.apple.quarantine /Applications/Microsoft\ Outlook.app
+	sudo xattr -d -r com.apple.quarantine /Applications/Microsoft\ Powerpoint.app
+	sudo xattr -d -r com.apple.quarantine /Applications/Microsoft\ Word.app
+	sudo xattr -d -r com.apple.quarantine /Applications/Microsoft\ Excel.app
+	sudo xattr -d -r com.apple.quarantine /Applications/Zoom.us.app
+	sudo xattr -d -r com.apple.quarantine /Applications/TeamViewer.app
+	
 	
 	# Cleanup the unneeded files
 	brew cleanup
@@ -305,7 +273,7 @@ elif [ "$1" == "-setup" ]; then
 	sleep 1
 
 	# Load remaining applications and redo the layout
-	userLoadApps
+	appLayout
 
 	# Download Meraki onto the computer
 	echo "Opening Safari for you to install Meraki onto the computer"
@@ -568,6 +536,25 @@ elif [ "$1" == "-noAD" ]; then
 	read -p "Press Enter when ready to restart the computer"
 
 	echo "$adminPW" | sudo -S sh -c "softwareupdate -ia && reboot"
+
+elif [ "$1" == "-permissions" ]; then
+	echo "Make sure you have su'd into admin before running this (or are already on the admin side)"
+	sleep 2
+
+	echo "Type in Admin Password"
+	sudo -v
+	# Add permissions for App Setup
+
+	sudo xattr -d -r com.apple.quarantine /Applications/Slack.app
+	sudo xattr -d -r com.apple.quarantine /Applications/Google\ Chrome.app
+	sudo xattr -d -r com.apple.quarantine /Applications/Adobe\ Acrobat\ Reader\ DC.app
+	sudo xattr -d -r com.apple.quarantine /Applications/Microsoft\ Outlook.app
+	sudo xattr -d -r com.apple.quarantine /Applications/Microsoft\ Powerpoint.app
+	sudo xattr -d -r com.apple.quarantine /Applications/Microsoft\ Word.app
+	sudo xattr -d -r com.apple.quarantine /Applications/Microsoft\ Excel.app
+	sudo xattr -d -r com.apple.quarantine /Applications/Zoom.us.app
+	sudo xattr -d -r com.apple.quarantine /Applications/TeamViewer.app
+
 else
 	echo "Error: No arguments / incorrect args provided, to utilize this script please utilize one of the below options"
 	echo "1) -ADJoin  			- Joins the computer to the Active Directory."
