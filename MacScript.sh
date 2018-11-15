@@ -172,6 +172,8 @@ elif [ "$1" == "-ADJoin" ]; then
 	sudo xattr -d -r com.apple.quarantine /Applications/Microsoft\ Excel.app
 	sudo xattr -d -r com.apple.quarantine /Applications/Zoom.us.app
 	sudo xattr -d -r com.apple.quarantine /Applications/TeamViewer.app
+	sudo xattr -d -r com.apple.quarantine /Applications/ZoomOutlookPlugin
+	sudo xattr -d -r com.apple.quarantine /Applications/Dropbox.app
 	
 	
 	# Cleanup the unneeded files
