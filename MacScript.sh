@@ -47,6 +47,7 @@ function appLayout() {
 	dockutil --remove Safari
 	dockutil --remove App\ Store
 	dockutil --remove System\ Preferences
+	dockutil --remove News
 
 	dockutil --add /Applications/Safari.app
 	dockutil --add /Applications/Google\ Chrome.app
