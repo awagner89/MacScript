@@ -65,10 +65,143 @@ function appLayout() {
 function printerCheck() {
 	echo "Would you like to add the office printers? (case matters)"
 	read printChoice
+	
+	echo "To add the printers you will need to know the Site Code, would you like to see a list of the Site Codes? (y/n)"
+	read siteList
+
+	if [ $siteList == "y" ]; then
+		echo "Site Code List:"
+		echo "-------------------------"
+		echo "BV = Bellevue"
+		echo "BD = Boulder"
+		echo "CH = Chicago"
+		echo "HH = Hamburg"
+		echo "HK = Hong Kong"
+		echo "IR = Irvine"
+		echo "LD = London"
+		echo "LA = Los Angeles"
+		echo "NY = New York"
+		echo "SF = San Francisco"
+		echo "SJ = San Jose"
+		echo "ST = Seattle"
+		echo "SG = Singapore"
+		echo "SY = Sydney"
+		echo "VT = Ventura (HQ 42)"
+		echo "VN = Ventura (101)\n"
+		sleep 1
+	fi
+
 
 	while [ $printChoice == "y" ]; do
 		echo "Type in the site code of the office you want to add the printers of (VT, VN, NY, CH, etc). Case Matters"
 		read siteCode
+
+		if [ $siteCode == "BV" ]; then
+			echo "Adding Bellevue Printers"
+			lpadmin -p "BVPR01" -v "http://10.32.5.1" -P "/System/Library/Frameworks/ApplicationServices.framework/Versions/A/Frameworks/PrintCore.framework/Versions/A/Resources/Generic.ppd" -o "APOptionalDuplexer=True" -E
+			echo "BVPR01 Added!"
+		fi
+
+		elif [ $siteCode == "BD" ]; then
+			echo "Adding Boulder Printers"
+			lpadmin -p "BDPR01" -v "http://10.5.5.1" -P "/System/Library/Frameworks/ApplicationServices.framework/Versions/A/Frameworks/PrintCore.framework/Versions/A/Resources/Generic.ppd" -o "APOptionalDuplexer=True" -E
+			echo "BDPR01 Added!"
+			lpadmin -p "BDPR02" -v "http://10.5.5.2" -P "/System/Library/Frameworks/ApplicationServices.framework/Versions/A/Frameworks/PrintCore.framework/Versions/A/Resources/Generic.ppd" -o "APOptionalDuplexer=True" -E
+			echo "BDPR02 Added!"
+			
+		fi
+
+		elif [ $siteCode == "CH" ]; then
+			echo "Adding Chicago Printers"
+			lpadmin -p "CHPR01" -v "http://10.6.5.1" -P "/System/Library/Frameworks/ApplicationServices.framework/Versions/A/Frameworks/PrintCore.framework/Versions/A/Resources/Generic.ppd" -o "APOptionalDuplexer=True" -E
+			echo "CHPR01 Added!"
+			lpadmin -p "CHPR02" -v "http://10.6.5.2" -P "/System/Library/Frameworks/ApplicationServices.framework/Versions/A/Frameworks/PrintCore.framework/Versions/A/Resources/Generic.ppd" -o "APOptionalDuplexer=True" -E
+			echo "CHPR02 Added!"
+		fi
+
+		elif [ $siteCode == "HH" ]; then
+			echo "Adding Hamburg Printers"
+			lpadmin -p "HHPR01" -v "http://10.14.5.1" -P "/System/Library/Frameworks/ApplicationServices.framework/Versions/A/Frameworks/PrintCore.framework/Versions/A/Resources/Generic.ppd" -o "APOptionalDuplexer=True" -E
+			echo "HHPR01 Added!"
+			lpadmin -p "HHPR02" -v "http://10.14.5.2" -P "/System/Library/Frameworks/ApplicationServices.framework/Versions/A/Frameworks/PrintCore.framework/Versions/A/Resources/Generic.ppd" -o "APOptionalDuplexer=True" -E
+			echo "HHPR02 Added!"
+		fi
+
+		elif [ $siteCode == "HK" ]; then
+			echo "Adding Hong Kong Printers"
+			lpadmin -p "HKPR01" -v "http://10.17.5.1" -P "/System/Library/Frameworks/ApplicationServices.framework/Versions/A/Frameworks/PrintCore.framework/Versions/A/Resources/Generic.ppd" -o "APOptionalDuplexer=True" -E
+			echo "HKPR01 Added!"
+			lpadmin -p "HKPR02" -v "http://10.17.5.2" -P "/System/Library/Frameworks/ApplicationServices.framework/Versions/A/Frameworks/PrintCore.framework/Versions/A/Resources/Generic.ppd" -o "APOptionalDuplexer=True" -E
+			echo "HKPR02 Added!"
+		fi
+
+		elif [ $siteCode == "IR" ]; then
+			echo "Adding Irvine Printers"
+			lpadmin -p "IRPR01" -v "http://10.31.5.1" -P "/System/Library/Frameworks/ApplicationServices.framework/Versions/A/Frameworks/PrintCore.framework/Versions/A/Resources/Generic.ppd" -o "APOptionalDuplexer=True" -E
+			echo "IRPR01 Added!"
+		fi
+
+		elif [ $siteCode == "LD" ]; then
+			echo "Adding London Printers"
+			lpadmin -p "LDPR01" -v "http://10.13.5.1" -P "/System/Library/Frameworks/ApplicationServices.framework/Versions/A/Frameworks/PrintCore.framework/Versions/A/Resources/Generic.ppd" -o "APOptionalDuplexer=True" -E
+			echo "LDPR01 Added!"
+			lpadmin -p "LDPR02" -v "http://10.13.5.2" -P "/System/Library/Frameworks/ApplicationServices.framework/Versions/A/Frameworks/PrintCore.framework/Versions/A/Resources/Generic.ppd" -o "APOptionalDuplexer=True" -E
+			echo "LDPR02 Added!"
+		fi
+
+		elif [ $siteCode == "LA" ]; then
+			echo "Adding Los Angeles Printers"
+			lpadmin -p "LAPR01" -v "http://10.33.5.1" -P "/System/Library/Frameworks/ApplicationServices.framework/Versions/A/Frameworks/PrintCore.framework/Versions/A/Resources/Generic.ppd" -o "APOptionalDuplexer=True" -E
+			echo "LAPR01 Added!"
+			lpadmin -p "LAPR02" -v "http://10.33.5.2" -P "/System/Library/Frameworks/ApplicationServices.framework/Versions/A/Frameworks/PrintCore.framework/Versions/A/Resources/Generic.ppd" -o "APOptionalDuplexer=True" -E
+			echo "LAPR02 Added!"
+		fi
+
+		elif [ $siteCode == "NY" ]; then
+			echo "Adding New York Printers"
+			lpadmin -p "NYPR01" -v "http://10.4.5.1" -P "/System/Library/Frameworks/ApplicationServices.framework/Versions/A/Frameworks/PrintCore.framework/Versions/A/Resources/Generic.ppd" -o "APOptionalDuplexer=True" -E
+			echo "NYPR01 Added!"
+			lpadmin -p "NYPR02" -v "http://10.4.5.2" -P "/System/Library/Frameworks/ApplicationServices.framework/Versions/A/Frameworks/PrintCore.framework/Versions/A/Resources/Generic.ppd" -o "APOptionalDuplexer=True" -E
+			echo "NYPR02 Added!"
+			lpadmin -p "NYPR03" -v "http://10.4.5.3" -P "/System/Library/Frameworks/ApplicationServices.framework/Versions/A/Frameworks/PrintCore.framework/Versions/A/Resources/Generic.ppd" -o "APOptionalDuplexer=True" -E
+			echo "NYPR03 Added!"
+			lpadmin -p "NYPR04" -v "http://10.4.5.4" -P "/System/Library/Frameworks/ApplicationServices.framework/Versions/A/Frameworks/PrintCore.framework/Versions/A/Resources/Generic.ppd" -o "APOptionalDuplexer=True" -E
+			echo "NYPR04 Added!"
+			lpadmin -p "NYPR05" -v "http://10.4.5.5" -P "/System/Library/Frameworks/ApplicationServices.framework/Versions/A/Frameworks/PrintCore.framework/Versions/A/Resources/Generic.ppd" -o "APOptionalDuplexer=True" -E
+			echo "NYPR05 Added!"
+		fi
+		
+		elif [ $siteCode == "SF" ]; then
+			echo "Adding San Francisco Printers"
+			lpadmin -p "SFPR01" -v "http://10.3.5.1" -P "/System/Library/Frameworks/ApplicationServices.framework/Versions/A/Frameworks/PrintCore.framework/Versions/A/Resources/Generic.ppd" -o "APOptionalDuplexer=True" -E
+			echo "SFPR01 Added!"
+		fi
+
+		elif [ $siteCode == "SJ" ]; then
+			echo "Adding San Jose Printers"
+			lpadmin -p "SJPR01" -v "http://10.30.5.1" -P "/System/Library/Frameworks/ApplicationServices.framework/Versions/A/Frameworks/PrintCore.framework/Versions/A/Resources/Generic.ppd" -o "APOptionalDuplexer=True" -E
+			echo "SJPR01 Added!"
+		fi
+
+		elif [ $siteCode == "ST" ]; then
+			echo "Adding Seattle Printers"
+			lpadmin -p "STPR01" -v "http://10.23.5.1" -P "/System/Library/Frameworks/ApplicationServices.framework/Versions/A/Frameworks/PrintCore.framework/Versions/A/Resources/Generic.ppd" -o "APOptionalDuplexer=True" -E
+			echo "STPR01 Added!"
+		fi
+
+		elif [ $siteCode == "SG" ]; then
+			echo "Adding Ventura (101) Printers"
+			lpadmin -p "SGPR01" -v "http://10.11.5.1" -P "/System/Library/Frameworks/ApplicationServices.framework/Versions/A/Frameworks/PrintCore.framework/Versions/A/Resources/Generic.ppd" -o "APOptionalDuplexer=True" -E
+			echo "SGPR01 Added!"
+		fi
+
+		elif [ $siteCode == "SY" ]; then
+			echo "Adding Sydney Printers"
+			lpadmin -p "SYPR01" -v "http://10.29.5.1" -P "/System/Library/Frameworks/ApplicationServices.framework/Versions/A/Frameworks/PrintCore.framework/Versions/A/Resources/Generic.ppd" -o "APOptionalDuplexer=True" -E
+			echo "SYPR01 Added!"
+			lpadmin -p "SYPR02" -v "http://10.29.5.2" -P "/System/Library/Frameworks/ApplicationServices.framework/Versions/A/Frameworks/PrintCore.framework/Versions/A/Resources/Generic.ppd" -o "APOptionalDuplexer=True" -E
+			echo "SYPR02 Added!"
+		fi
 
 		if [ $siteCode == "VT" ]; then
 			echo "Adding Ventura (HQ) Printers"
@@ -91,7 +224,7 @@ function printerCheck() {
 			echo "VNPR12 Added!"
 			lpadmin -p "VNPR03" -v "http://10.9.5.3" -P "/System/Library/Frameworks/ApplicationServices.framework/Versions/A/Frameworks/PrintCore.framework/Versions/A/Resources/Generic.ppd" -o "APOptionalDuplexer=True" -E
 			echo "VNPR03 Added!"
-			lpadmin -p "VNPR04" -v "http://10.9.5.6" -P "/System/Library/Frameworks/ApplicationServices.framework/Versions/A/Frameworks/PrintCore.framework/Versions/A/Resources/Generic.ppd" -o "APOptionalDuplexer=True" -E
+			lpadmin -p "VNPR04" -v "http://10.9.5.4" -P "/System/Library/Frameworks/ApplicationServices.framework/Versions/A/Frameworks/PrintCore.framework/Versions/A/Resources/Generic.ppd" -o "APOptionalDuplexer=True" -E
 			echo "VNPR04 Added!"
 		fi
 		echo "Would you like to add any other Office Site Printers? (y/n)"
