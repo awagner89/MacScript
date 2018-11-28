@@ -66,7 +66,7 @@ function printerCheck() {
 	echo "Would you like to add the office printers? (case matters)"
 	read printChoice
 
-	if [ printChoice == "y" ]; then
+	if [ $printChoice == "y" ]; then
 		echo "Type in the site code of the office you want to add the printers of (VT, VN, NY, CH, etc). Case Matters"
 		read siteCode
 
@@ -84,7 +84,7 @@ function printerCheck() {
 			lpadmin -p "VTPR07" -v "http://10.1.5.7" -P "/System/Library/Frameworks/ApplicationServices.framework/Versions/A/Frameworks/PrintCore.framework/Versions/A/Resources/Generic.ppd" -o "APOptionalDuplexer=True" -E
 			echo "VTPR07 Added!"
 
-		elif [ siteCode == "VN" ]; then
+		elif [ $siteCode == "VN" ]; then
 			echo "Adding Ventura (101) Printers"
 			sleep 1
 			lpadmin -p "VNPR01" -v "http://10.9.5.1" -P "/System/Library/Frameworks/ApplicationServices.framework/Versions/A/Frameworks/PrintCore.framework/Versions/A/Resources/Generic.ppd" -o "APOptionalDuplexer=True" -E
