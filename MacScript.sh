@@ -62,6 +62,44 @@ function appLayout() {
 	dockutil --add /Applications/System\ Preferences.app
 }
 
+function printerCheck() {
+	echo "Would you like to add the office printers? (case matters)"
+	read printChoice
+
+	if [ printChoice == 'y' ]; then
+		echo "Type in the site code of the office you want to add the printers of (VT, VN, NY, CH, etc). Case Matters"
+		read siteCode
+
+		if [ siteCode == 'VT' ]; then
+			echo "Adding Ventura (HQ) Printers"
+			sleep(1)
+			lpadmin -p "VTPR01" -v "http://10.1.5.1" -P "/System/Library/Frameworks/ApplicationServices.framework/Versions/A/Frameworks/PrintCore.framework/Versions/A/Resources/Generic.ppd" -o "APOptionalDuplexer=True" -E
+			echo "VTPR01 Added!"
+			lpadmin -p "VTPR02" -v "http://10.1.5.2" -P "/System/Library/Frameworks/ApplicationServices.framework/Versions/A/Frameworks/PrintCore.framework/Versions/A/Resources/Generic.ppd" -o "APOptionalDuplexer=True" -E
+			echo "VTPR02 Added!"
+			lpadmin -p "VTPR03" -v "http://10.1.5.3" -P "/System/Library/Frameworks/ApplicationServices.framework/Versions/A/Frameworks/PrintCore.framework/Versions/A/Resources/Generic.ppd" -o "APOptionalDuplexer=True" -E
+			echo "VTPR03 Added!"
+			lpadmin -p "VTPR06" -v "http://10.1.5.6" -P "/System/Library/Frameworks/ApplicationServices.framework/Versions/A/Frameworks/PrintCore.framework/Versions/A/Resources/Generic.ppd" -o "APOptionalDuplexer=True" -E
+			echo "VTPR06 Added!"
+			lpadmin -p "VTPR07" -v "http://10.1.5.7" -P "/System/Library/Frameworks/ApplicationServices.framework/Versions/A/Frameworks/PrintCore.framework/Versions/A/Resources/Generic.ppd" -o "APOptionalDuplexer=True" -E
+			echo "VTPR07 Added!"
+
+		elif [ siteCode == 'VN' ]; then
+			echo "Adding Ventura (101) Printers"
+			sleep(1)
+			lpadmin -p "VNPR01" -v "http://10.9.5.1" -P "/System/Library/Frameworks/ApplicationServices.framework/Versions/A/Frameworks/PrintCore.framework/Versions/A/Resources/Generic.ppd" -o "APOptionalDuplexer=True" -E
+			echo "VNPR01 Added!"
+			lpadmin -p "VNPR12" -v "http://10.9.5.12" -P "/System/Library/Frameworks/ApplicationServices.framework/Versions/A/Frameworks/PrintCore.framework/Versions/A/Resources/Generic.ppd" -o "APOptionalDuplexer=True" -E
+			echo "VNPR12 Added!"
+			lpadmin -p "VNPR03" -v "http://10.9.5.3" -P "/System/Library/Frameworks/ApplicationServices.framework/Versions/A/Frameworks/PrintCore.framework/Versions/A/Resources/Generic.ppd" -o "APOptionalDuplexer=True" -E
+			echo "VNPR03 Added!"
+			lpadmin -p "VNPR04" -v "http://10.9.5.6" -P "/System/Library/Frameworks/ApplicationServices.framework/Versions/A/Frameworks/PrintCore.framework/Versions/A/Resources/Generic.ppd" -o "APOptionalDuplexer=True" -E
+			echo "VNPR04 Added!"
+		done
+	else
+		echo "Skipping Printer Setup"
+}
+
 # Bash setup to get the computer on the AD Server
 
 if [ "$1" == "-renameComputer" ]; then
@@ -394,6 +432,11 @@ elif [ "$1" == "cleanup" ]; then
 	yes "" | ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/uninstall)"
 	
 	read -p "Almost done. Don't forget to add the printer for this user's location! Press Enter once completed"
+
+	printerCheck()
+
+
+		
 	
 	echo "All done!, feel free to close the terminal and restart the computer at this point."
 	
