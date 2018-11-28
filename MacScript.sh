@@ -749,7 +749,7 @@ else
 	echo "|                                       |_|         |"
 	echo "+---------------------------------------------------+"
 	
-	echo "\Welcome to the Mac Setup Script"
+	echo "\nWelcome to the Mac Setup Script"
 	sleep .5
 	echo "Type in the number for the action you'd like to complete:"
 
@@ -759,7 +759,7 @@ else
 	echo "4) -printers        - Adds Printers via SiteCode"
 	echo "5) -quit            - Quit the setup application\n"
 
-	echo -n ">: "
+	printf ">: "
 	read userResponse 
 
 	if [ $userResponse == "1" ]; then
