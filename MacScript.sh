@@ -70,17 +70,21 @@ function printerCheck() {
 		echo "Type in the site code of the office you want to add the printers of (VT, VN, NY, CH, etc). Case Matters"
 		read siteCode
 
-		if [ siteCode == "VT" ]; then
+		if [ $siteCode == "VT" ]; then
 			echo "Adding Ventura (HQ) Printers"
 			sleep 1
 			lpadmin -p "VTPR01" -v "http://10.1.5.1" -P "/System/Library/Frameworks/ApplicationServices.framework/Versions/A/Frameworks/PrintCore.framework/Versions/A/Resources/Generic.ppd" -o "APOptionalDuplexer=True" -E
 			echo "VTPR01 Added!"
+			sleep 1
 			lpadmin -p "VTPR02" -v "http://10.1.5.2" -P "/System/Library/Frameworks/ApplicationServices.framework/Versions/A/Frameworks/PrintCore.framework/Versions/A/Resources/Generic.ppd" -o "APOptionalDuplexer=True" -E
 			echo "VTPR02 Added!"
+			sleep 1
 			lpadmin -p "VTPR03" -v "http://10.1.5.3" -P "/System/Library/Frameworks/ApplicationServices.framework/Versions/A/Frameworks/PrintCore.framework/Versions/A/Resources/Generic.ppd" -o "APOptionalDuplexer=True" -E
 			echo "VTPR03 Added!"
+			sleep 1
 			lpadmin -p "VTPR06" -v "http://10.1.5.6" -P "/System/Library/Frameworks/ApplicationServices.framework/Versions/A/Frameworks/PrintCore.framework/Versions/A/Resources/Generic.ppd" -o "APOptionalDuplexer=True" -E
 			echo "VTPR06 Added!"
+			sleep 1
 			lpadmin -p "VTPR07" -v "http://10.1.5.7" -P "/System/Library/Frameworks/ApplicationServices.framework/Versions/A/Frameworks/PrintCore.framework/Versions/A/Resources/Generic.ppd" -o "APOptionalDuplexer=True" -E
 			echo "VTPR07 Added!"
 
