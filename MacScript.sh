@@ -95,9 +95,10 @@ function printerCheck() {
 			echo "VNPR03 Added!"
 			lpadmin -p "VNPR04" -v "http://10.9.5.6" -P "/System/Library/Frameworks/ApplicationServices.framework/Versions/A/Frameworks/PrintCore.framework/Versions/A/Resources/Generic.ppd" -o "APOptionalDuplexer=True" -E
 			echo "VNPR04 Added!"
-		done
+		fi
 	else
 		echo "Skipping Printer Setup"
+	fi
 }
 
 # Bash setup to get the computer on the AD Server
