@@ -72,7 +72,7 @@ function printerCheck() {
 
 		if [ siteCode == 'VT' ]; then
 			echo "Adding Ventura (HQ) Printers"
-			sleep(1)
+			sleep 1
 			lpadmin -p "VTPR01" -v "http://10.1.5.1" -P "/System/Library/Frameworks/ApplicationServices.framework/Versions/A/Frameworks/PrintCore.framework/Versions/A/Resources/Generic.ppd" -o "APOptionalDuplexer=True" -E
 			echo "VTPR01 Added!"
 			lpadmin -p "VTPR02" -v "http://10.1.5.2" -P "/System/Library/Frameworks/ApplicationServices.framework/Versions/A/Frameworks/PrintCore.framework/Versions/A/Resources/Generic.ppd" -o "APOptionalDuplexer=True" -E
