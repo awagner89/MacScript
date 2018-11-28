@@ -785,6 +785,7 @@ else
 
 	else
 		echo "Quitting application, thank you!"
+		exit
 
 	fi
 
