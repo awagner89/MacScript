@@ -759,7 +759,7 @@ else
 	echo "4) -printers        - Adds Printers via SiteCode"
 	echo "5) -quit            - Quit the setup application\n"
 
-	echo ">: "
+	echo -n ">: "
 	read userResponse 
 
 	if [ $userResponse == "1" ]; then
