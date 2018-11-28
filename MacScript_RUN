@@ -738,6 +738,8 @@ else
 	mydir=$(dirname "$0")
 	cp "${mydir}"/"${my_name}" /Users/Shared
 
+	clear
+
 	echo "+---------------------------------------------------+"
 	echo "| ___  ___             _____           _       _    |"
 	echo "| |  \/  |            /  ___|         (_)     | |   |"
@@ -748,8 +750,8 @@ else
 	echo "|                                       | |         |"
 	echo "|                                       |_|         |"
 	echo "+---------------------------------------------------+"
-	
-	echo "\nWelcome to the Mac Setup Script"
+	echo ""
+	echo "Welcome to the Mac Setup Script"
 	sleep .5
 	echo "Type in the number for the action you'd like to complete:"
 
@@ -757,7 +759,8 @@ else
 	echo "2) -renameComputer  - Renames the computer for you."
 	echo "3) -setup           - Sets up the user account"
 	echo "4) -printers        - Adds Printers via SiteCode"
-	echo "5) -quit            - Quit the setup application\n"
+	echo "5) -quit            - Quit the setup application"
+	echo ""
 
 	printf ">: "
 	read userResponse 
