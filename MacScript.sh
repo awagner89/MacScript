@@ -757,9 +757,10 @@ else
 	echo "2) -renameComputer  - Renames the computer for you."
 	echo "3) -setup           - Sets up the user account"
 	echo "4) -printers        - Adds Printers via SiteCode"
-	echo "5) -quit            - Quit the setup application"
+	echo "5) -quit            - Quit the setup application\n"
 
-	read userResponse "> "
+	echo ">: "
+	read userResponse 
 
 	if [ $userResponse == "1" ]; then
 		echo "Beginning ADJoin initial Setup"
