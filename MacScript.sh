@@ -761,28 +761,30 @@ else
 
 	read userResponse
 
-	if [ $userResponse == "1" ] then;
+	if [ $userResponse == "1" ]; then
 		echo "Beginning ADJoin initial Setup"
 		sleep 2
 		caffeinate -i sh "${mydir}"/"${my_name}" -ADJoin
 
-	elif [ $userResponse == "2" ] then;
+	elif [ $userResponse == "2" ]; then
 		echo "Beginning Renaming Procedure"
 		sleep 2
 		caffeinate -i sh "${mydir}"/"${my_name}" -renameComputer
 
-	elif [ $userResponse == "3" ] then;
+	elif [ $userResponse == "3" ]; then
 		echo "Beginning Setup Process"
 		sleep 2
 		caffeinate -i sh "${mydir}"/"${my_name}" -setup
 
-	elif [ $userResponse == "4" ] then;
+	elif [ $userResponse == "4" ]; then
 		echo "Beginning Printer Setup Process"
 		sleep 2
 		caffeinate -i sh "${mydir}"/"${my_name}" -printers
 
 	else
 		echo "Quitting application, thank you!"
+
+	fi
 
 
 fi
