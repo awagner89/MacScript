@@ -189,7 +189,7 @@ function printerCheck() {
 			lpadmin -p "SYPR02" -v "http://10.29.5.2" -P "/System/Library/Frameworks/ApplicationServices.framework/Versions/A/Frameworks/PrintCore.framework/Versions/A/Resources/Generic.ppd" -o "APOptionalDuplexer=True" -E
 			echo "SYPR02 Added!"
 
-		if [ $siteCode == "VT" ]; then
+		elif [ $siteCode == "VT" ]; then
 			echo "Adding Ventura (HQ) Printers"
 			lpadmin -p "VTPR01" -v "http://10.1.5.1" -P "/System/Library/Frameworks/ApplicationServices.framework/Versions/A/Frameworks/PrintCore.framework/Versions/A/Resources/Generic.ppd" -o "APOptionalDuplexer=True" -E
 			echo "VTPR01 Added!"
@@ -212,7 +212,6 @@ function printerCheck() {
 			echo "VNPR03 Added!"
 			lpadmin -p "VNPR04" -v "http://10.9.5.4" -P "/System/Library/Frameworks/ApplicationServices.framework/Versions/A/Frameworks/PrintCore.framework/Versions/A/Resources/Generic.ppd" -o "APOptionalDuplexer=True" -E
 			echo "VNPR04 Added!"
-			echo "done"
 		fi
 		
 		echo "Would you like to add any other Office Site Printers? (y/n)"
