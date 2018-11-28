@@ -311,6 +311,9 @@ elif [ "$1" == "-ADJoin" ]; then
 	# Install cask to download applications
 	brew install cask
 
+	# Install Duti to set default applications
+	brew install duti
+
 	# Set the cask application download location to the default application folder
 	# brew cask --caskroom=/Applications
 
@@ -436,6 +439,13 @@ elif [ "$1" == "-setup" ]; then
 
 	# Load remaining applications and redo the layout
 	appLayout
+
+	# Set Adobe Acrobat as the default application
+	echo "Setting some default applications."
+	sleep 1
+	duti -s com.adobe.reader .pdf all
+	echo "Adobe Acrobat has been set as the default application"
+	sleep 1
 
 	# Download Meraki onto the computer
 	echo "Opening Safari for you to install Meraki onto the computer"
