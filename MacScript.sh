@@ -97,7 +97,7 @@ function printerCheck() {
 			echo "VNPR04 Added!"
 		fi
 		echo "Would you like to add any other Office Site Printers? (y/n)"
-		read siteCode
+		read printChoice
 		done
 
 	echo "Closing printer setup"
