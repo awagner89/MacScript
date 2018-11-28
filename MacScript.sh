@@ -433,10 +433,7 @@ elif [ "$1" == "cleanup" ]; then
 	
 	read -p "Almost done. Don't forget to add the printer for this user's location! Press Enter once completed"
 
-	printerCheck()
-
-
-		
+	printerCheck
 	
 	echo "All done!, feel free to close the terminal and restart the computer at this point."
 	
@@ -599,6 +596,9 @@ elif [ "$1" == "-permissions" ]; then
 	sudo xattr -d -r com.apple.quarantine /Applications/Microsoft\ Excel.app
 	sudo xattr -d -r com.apple.quarantine /Applications/Zoom.us.app
 	sudo xattr -d -r com.apple.quarantine /Applications/TeamViewer.app
+
+elif [ "$1" == "-printers" ]; then
+	printerCheck
 
 else
 	echo "Error: No arguments / incorrect args provided, to utilize this script please utilize one of the below options"
