@@ -235,7 +235,7 @@ if [ "$1" == "-renameComputer" ]; then
 elif [ "$1" == "-ADJoin" ]; then
 	echo ""
 	echo "Don't forget to add this computer to SmartSheets"
-	system_profiler |grep "Serial"
+	system_profiler SPHardwareDataType |grep "Serial"
 	sleep 1
 	
 	echo ""
