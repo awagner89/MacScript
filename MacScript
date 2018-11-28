@@ -233,14 +233,17 @@ if [ "$1" == "-renameComputer" ]; then
 	scutil --set ComputerName $compName
 	
 elif [ "$1" == "-ADJoin" ]; then
-
+	echo ""
 	echo "Don't forget to add this computer to SmartSheets"
+	system_profiler |grep "Serial"
 	sleep 1
 	
-	read -p "Press Enter when ready to continue with the script"
+	echo ""
+	read -p "Press Enter when ready to continue with the script [ENTER]"
 
 	my_name=$(basename -- "$0")
 	# Make a copy of the script in the shared folder
+	echo ""
 	echo 'Making a copy of the script in the shared folder "/Users/Shared"'
 	mydir=$(dirname "$0")
 	cp "${mydir}"/"${my_name}" /Users/Shared
@@ -248,9 +251,11 @@ elif [ "$1" == "-ADJoin" ]; then
 	sleep 1
 	
 	# Modify the name of the computer
+	echo ""
 	echo "What would you like to name the computer (typically this is first initial last name)?"
 	printf ">: "
 	read compName
+	echo ""
 	echo "A pop up will appear twice to set the name, fill it in twice"
 	sleep 2
 	scutil --set ComputerName $compName
@@ -260,10 +265,12 @@ elif [ "$1" == "-ADJoin" ]; then
 	# Loop until the computer is properly binded
 	adSuccess="n"
 	while [ $adSuccess != "y" ]; do
+		echo ""
 		echo "Type in your AD Account (whole email address) name with binding rights"
 		printf ">: "
 		read adName
 		
+		echo ""
 		echo "Type in the AD Account Password:"
 		printf ">: "
 		read -s pwName
