@@ -738,7 +738,7 @@ else
 	mydir=$(dirname "$0")
 	cp "${mydir}"/"${my_name}" /Users/Shared
 
-	echo "+--------------------------------------------------+"
+	echo "+---------------------------------------------------+"
 	echo "| ___  ___             _____           _       _    |"
 	echo "| |  \/  |            /  ___|         (_)     | |   |"
 	echo "| | .  . | __ _  ___  \  --.  ___ _ __ _ _ __ | |_  |"
@@ -747,17 +747,17 @@ else
 	echo "| \_|  |_/\__,_|\___| \____/ \___|_|  |_| .__/ \__| |"
 	echo "|                                       | |         |"
 	echo "|                                       |_|         |"
-	echo "+--------------------------------------------------+"
+	echo "+---------------------------------------------------+"
 	
 	echo "\Welcome to the Mac Setup Script"
 	sleep .5
 	echo "Type in the number for the action you'd like to complete:"
 
-	echo "1) -ADJoin  			- Joins the computer to the Active Directory."
-	echo "2) -renameComputer  	- Renames the computer for you."
-	echo "3) -setup   			- Sets up the user account (use this once you're on the user account)."
-	echo "4) -printers			- Assists with adding just printers via that Office's Specific Site Code"
-	echo "5) -quit				- Quit the setup application"
+	echo "1) -ADJoin          - Joins the computer to the Active Directory."
+	echo "2) -renameComputer  - Renames the computer for you."
+	echo "3) -setup           - Sets up the user account"
+	echo "4) -printers        - Adds Printers via SiteCode"
+	echo "5) -quit            - Quit the setup application"
 
 	read userResponse "> "
 
