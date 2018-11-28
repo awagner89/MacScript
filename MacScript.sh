@@ -72,7 +72,6 @@ function printerCheck() {
 
 		if [ $siteCode == "VT" ]; then
 			echo "Adding Ventura (HQ) Printers"
-			sleep 1
 			lpadmin -p "VTPR01" -v "http://10.1.5.1" -P "/System/Library/Frameworks/ApplicationServices.framework/Versions/A/Frameworks/PrintCore.framework/Versions/A/Resources/Generic.ppd" -o "APOptionalDuplexer=True" -E
 			echo "VTPR01 Added!"
 			lpadmin -p "VTPR02" -v "http://10.1.5.2" -P "/System/Library/Frameworks/ApplicationServices.framework/Versions/A/Frameworks/PrintCore.framework/Versions/A/Resources/Generic.ppd" -o "APOptionalDuplexer=True" -E
@@ -86,7 +85,6 @@ function printerCheck() {
 
 		elif [ $siteCode == "VN" ]; then
 			echo "Adding Ventura (101) Printers"
-			sleep 1
 			lpadmin -p "VNPR01" -v "http://10.9.5.1" -P "/System/Library/Frameworks/ApplicationServices.framework/Versions/A/Frameworks/PrintCore.framework/Versions/A/Resources/Generic.ppd" -o "APOptionalDuplexer=True" -E
 			echo "VNPR01 Added!"
 			lpadmin -p "VNPR12" -v "http://10.9.5.12" -P "/System/Library/Frameworks/ApplicationServices.framework/Versions/A/Frameworks/PrintCore.framework/Versions/A/Resources/Generic.ppd" -o "APOptionalDuplexer=True" -E
