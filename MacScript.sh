@@ -738,16 +738,16 @@ else
 	mydir=$(dirname "$0")
 	cp "${mydir}"/"${my_name}" /Users/Shared
 
-	echo "+-------------------------------------------------------------+"
-	echo "|		___  ___             _____           _       _   		|"
-	echo "|		|  \/  |            /  ___|         (_)     | |  		|"
-	echo "|		| .  . | __ _  ___  \  --.  ___ _ __ _ _ __ | |_ 		|"
-	echo "|		| |\/| |/ _' |/ __|  '--. \/ __| '__| | '_ \| __|		|"
-	echo "|		| |  | | (_| | (__  /\__/ / (__| |  | | |_) | |_ 		|"
-	echo "|		\_|  |_/\__,_|\___| \____/ \___|_|  |_| .__/ \__|		|"
-	echo "|		                                      | |        		|"
-	echo "|		                                      |_|        		|"
-	echo "+-------------------------------------------------------------+"
+	echo "+---------------------------------------------------+"
+	echo "|	___  ___             _____           _       _    |"
+	echo "|	|  \/  |            /  ___|         (_)     | |   |"
+	echo "|	| .  . | __ _  ___  \  --.  ___ _ __ _ _ __ | |_  |"
+	echo "|	| |\/| |/ _' |/ __|  '--. \/ __| '__| | '_ \| __| |"
+	echo "|	| |  | | (_| | (__  /\__/ / (__| |  | | |_) | |_  |"
+	echo "|	\_|  |_/\__,_|\___| \____/ \___|_|  |_| .__/ \__| |"
+	echo "|	                                      | |         |"
+	echo "|	                                      |_|         |"
+	echo "+---------------------------------------------------+"
 	
 	echo "\Welcome to the Mac Setup Script"
 	sleep .5
@@ -759,7 +759,7 @@ else
 	echo "4) -printers			- Assists with adding just printers via that Office's Specific Site Code"
 	echo "5) -quit				- Quit the setup application"
 
-	read userResponse
+	read userResponse "> "
 
 	if [ $userResponse == "1" ]; then
 		echo "Beginning ADJoin initial Setup"
