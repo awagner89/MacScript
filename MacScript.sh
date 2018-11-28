@@ -732,11 +732,57 @@ elif [ "$1" == "-printers" ]; then
 	printerCheck
 
 else
-	echo "Error: No arguments / incorrect args provided, to utilize this script please utilize one of the below options"
+	my_name=$(basename -- "$0")
+	# Make a copy of the script in the shared folder
+	
+	mydir=$(dirname "$0")
+	cp "${mydir}"/"${my_name}" /Users/Shared
+
+	echo "+-------------------------------------------------------------+"
+	echo "|		___  ___             _____           _       _   		|"
+	echo "|		|  \/  |            /  ___|         (_)     | |  		|"
+	echo "|		| .  . | __ _  ___  \  --.  ___ _ __ _ _ __ | |_ 		|"
+	echo "|		| |\/| |/ _' |/ __|  '--. \/ __| '__| | '_ \| __|		|"
+	echo "|		| |  | | (_| | (__  /\__/ / (__| |  | | |_) | |_ 		|"
+	echo "|		\_|  |_/\__,_|\___| \____/ \___|_|  |_| .__/ \__|		|"
+	echo "|		                                      | |        		|"
+	echo "|		                                      |_|        		|"
+	echo "+-------------------------------------------------------------+"
+	
+	echo "\Welcome to the Mac Setup Script"
+	sleep .5
+	echo "Type in the number for the action you'd like to complete:"
+
 	echo "1) -ADJoin  			- Joins the computer to the Active Directory."
 	echo "2) -renameComputer  	- Renames the computer for you."
 	echo "3) -setup   			- Sets up the user account (use this once you're on the user account)."
-	echo "4) -appLoad 			- Simply installs Homebrew and all of our applications."
-	echo "5) -sophos  			- Loads Sophos onto the computer."
-	echo "6) -noAD				- Loads all settings for setup without joining to domain."
+	echo "4) -printers			- Assists with adding just printers via that Office's Specific Site Code"
+	echo "5) -quit				- Quit the setup application"
+
+	read userResponse
+
+	if [ $userResponse == "1" ] then;
+		echo "Beginning ADJoin initial Setup"
+		sleep 2
+		caffeinate -i sh "${mydir}"/"${my_name}" -ADJoin
+
+	elif [ $userResponse == "2" ] then;
+		echo "Beginning Renaming Procedure"
+		sleep 2
+		caffeinate -i sh "${mydir}"/"${my_name}" -renameComputer
+
+	elif [ $userResponse == "3" ] then;
+		echo "Beginning Setup Process"
+		sleep 2
+		caffeinate -i sh "${mydir}"/"${my_name}" -setup
+
+	elif [ $userResponse == "4" ] then;
+		echo "Beginning Printer Setup Process"
+		sleep 2
+		caffeinate -i sh "${mydir}"/"${my_name}" -printers
+
+	else
+		echo "Quitting application, thank you!"
+
+
 fi
