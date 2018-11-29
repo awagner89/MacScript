@@ -62,22 +62,188 @@ function appLayout() {
 	dockutil --add /Applications/System\ Preferences.app
 }
 
+function printerCheck() {
+	echo "Would you like to add the office printers? (case matters)"
+	printf ">: "
+	read printChoice
+	
+	echo "To add the printers you will need to know the Site Code, would you like to see a list of the Site Codes? (y/n)"
+	printf ">: "
+	read siteList
+
+	if [ $siteList == "y" ]; then
+		echo "Site Code List:"
+		echo "-------------------------"
+		echo "BV = Bellevue"
+		echo "BD = Boulder"
+		echo "CH = Chicago"
+		echo "HH = Hamburg"
+		echo "HK = Hong Kong"
+		echo "IR = Irvine"
+		echo "LD = London"
+		echo "LA = Los Angeles"
+		echo "NY = New York"
+		echo "SF = San Francisco"
+		echo "SJ = San Jose"
+		echo "ST = Seattle"
+		echo "SG = Singapore"
+		echo "SY = Sydney"
+		echo "VT = Ventura (HQ 42)"
+		echo "VN = Ventura (101)\n"
+		sleep 1
+	fi
+
+
+	while [ $printChoice == "y" ]; do
+		echo "Type in the site code of the office you want to add the printers of (VT, VN, NY, CH, etc). Case Matters"
+		printf ">: "
+		read siteCode
+
+		if [ $siteCode == "BV" ]; then
+			echo "Adding Bellevue Printers"
+			lpadmin -p "BVPR01" -v "http://10.32.5.1" -P "/System/Library/Frameworks/ApplicationServices.framework/Versions/A/Frameworks/PrintCore.framework/Versions/A/Resources/Generic.ppd" -o "APOptionalDuplexer=True" -E
+			echo "BVPR01 Added!"
+
+		elif [ $siteCode == "BD" ]; then
+			echo "Adding Boulder Printers"
+			lpadmin -p "BDPR01" -v "http://10.5.5.1" -P "/System/Library/Frameworks/ApplicationServices.framework/Versions/A/Frameworks/PrintCore.framework/Versions/A/Resources/Generic.ppd" -o "APOptionalDuplexer=True" -E
+			echo "BDPR01 Added!"
+			lpadmin -p "BDPR02" -v "http://10.5.5.2" -P "/System/Library/Frameworks/ApplicationServices.framework/Versions/A/Frameworks/PrintCore.framework/Versions/A/Resources/Generic.ppd" -o "APOptionalDuplexer=True" -E
+			echo "BDPR02 Added!"
+			
+
+		elif [ $siteCode == "CH" ]; then
+			echo "Adding Chicago Printers"
+			lpadmin -p "CHPR01" -v "http://10.6.5.1" -P "/System/Library/Frameworks/ApplicationServices.framework/Versions/A/Frameworks/PrintCore.framework/Versions/A/Resources/Generic.ppd" -o "APOptionalDuplexer=True" -E
+			echo "CHPR01 Added!"
+			lpadmin -p "CHPR02" -v "http://10.6.5.2" -P "/System/Library/Frameworks/ApplicationServices.framework/Versions/A/Frameworks/PrintCore.framework/Versions/A/Resources/Generic.ppd" -o "APOptionalDuplexer=True" -E
+			echo "CHPR02 Added!"
+
+		elif [ $siteCode == "HH" ]; then
+			echo "Adding Hamburg Printers"
+			lpadmin -p "HHPR01" -v "http://10.14.5.1" -P "/System/Library/Frameworks/ApplicationServices.framework/Versions/A/Frameworks/PrintCore.framework/Versions/A/Resources/Generic.ppd" -o "APOptionalDuplexer=True" -E
+			echo "HHPR01 Added!"
+			lpadmin -p "HHPR02" -v "http://10.14.5.2" -P "/System/Library/Frameworks/ApplicationServices.framework/Versions/A/Frameworks/PrintCore.framework/Versions/A/Resources/Generic.ppd" -o "APOptionalDuplexer=True" -E
+			echo "HHPR02 Added!"
+
+		elif [ $siteCode == "HK" ]; then
+			echo "Adding Hong Kong Printers"
+			lpadmin -p "HKPR01" -v "http://10.17.5.1" -P "/System/Library/Frameworks/ApplicationServices.framework/Versions/A/Frameworks/PrintCore.framework/Versions/A/Resources/Generic.ppd" -o "APOptionalDuplexer=True" -E
+			echo "HKPR01 Added!"
+			lpadmin -p "HKPR02" -v "http://10.17.5.2" -P "/System/Library/Frameworks/ApplicationServices.framework/Versions/A/Frameworks/PrintCore.framework/Versions/A/Resources/Generic.ppd" -o "APOptionalDuplexer=True" -E
+			echo "HKPR02 Added!"
+
+		elif [ $siteCode == "IR" ]; then
+			echo "Adding Irvine Printers"
+			lpadmin -p "IRPR01" -v "http://10.31.5.1" -P "/System/Library/Frameworks/ApplicationServices.framework/Versions/A/Frameworks/PrintCore.framework/Versions/A/Resources/Generic.ppd" -o "APOptionalDuplexer=True" -E
+			echo "IRPR01 Added!"
+
+		elif [ $siteCode == "LD" ]; then
+			echo "Adding London Printers"
+			lpadmin -p "LDPR01" -v "http://10.13.5.1" -P "/System/Library/Frameworks/ApplicationServices.framework/Versions/A/Frameworks/PrintCore.framework/Versions/A/Resources/Generic.ppd" -o "APOptionalDuplexer=True" -E
+			echo "LDPR01 Added!"
+			lpadmin -p "LDPR02" -v "http://10.13.5.2" -P "/System/Library/Frameworks/ApplicationServices.framework/Versions/A/Frameworks/PrintCore.framework/Versions/A/Resources/Generic.ppd" -o "APOptionalDuplexer=True" -E
+			echo "LDPR02 Added!"
+
+		elif [ $siteCode == "LA" ]; then
+			echo "Adding Los Angeles Printers"
+			lpadmin -p "LAPR01" -v "http://10.33.5.1" -P "/System/Library/Frameworks/ApplicationServices.framework/Versions/A/Frameworks/PrintCore.framework/Versions/A/Resources/Generic.ppd" -o "APOptionalDuplexer=True" -E
+			echo "LAPR01 Added!"
+			lpadmin -p "LAPR02" -v "http://10.33.5.2" -P "/System/Library/Frameworks/ApplicationServices.framework/Versions/A/Frameworks/PrintCore.framework/Versions/A/Resources/Generic.ppd" -o "APOptionalDuplexer=True" -E
+			echo "LAPR02 Added!"
+
+		elif [ $siteCode == "NY" ]; then
+			echo "Adding New York Printers"
+			lpadmin -p "NYPR01" -v "http://10.4.5.1" -P "/System/Library/Frameworks/ApplicationServices.framework/Versions/A/Frameworks/PrintCore.framework/Versions/A/Resources/Generic.ppd" -o "APOptionalDuplexer=True" -E
+			echo "NYPR01 Added!"
+			lpadmin -p "NYPR02" -v "http://10.4.5.2" -P "/System/Library/Frameworks/ApplicationServices.framework/Versions/A/Frameworks/PrintCore.framework/Versions/A/Resources/Generic.ppd" -o "APOptionalDuplexer=True" -E
+			echo "NYPR02 Added!"
+			lpadmin -p "NYPR03" -v "http://10.4.5.3" -P "/System/Library/Frameworks/ApplicationServices.framework/Versions/A/Frameworks/PrintCore.framework/Versions/A/Resources/Generic.ppd" -o "APOptionalDuplexer=True" -E
+			echo "NYPR03 Added!"
+			lpadmin -p "NYPR04" -v "http://10.4.5.4" -P "/System/Library/Frameworks/ApplicationServices.framework/Versions/A/Frameworks/PrintCore.framework/Versions/A/Resources/Generic.ppd" -o "APOptionalDuplexer=True" -E
+			echo "NYPR04 Added!"
+			lpadmin -p "NYPR05" -v "http://10.4.5.5" -P "/System/Library/Frameworks/ApplicationServices.framework/Versions/A/Frameworks/PrintCore.framework/Versions/A/Resources/Generic.ppd" -o "APOptionalDuplexer=True" -E
+			echo "NYPR05 Added!"
+		
+		elif [ $siteCode == "SF" ]; then
+			echo "Adding San Francisco Printers"
+			lpadmin -p "SFPR01" -v "http://10.3.5.1" -P "/System/Library/Frameworks/ApplicationServices.framework/Versions/A/Frameworks/PrintCore.framework/Versions/A/Resources/Generic.ppd" -o "APOptionalDuplexer=True" -E
+			echo "SFPR01 Added!"
+
+		elif [ $siteCode == "SJ" ]; then
+			echo "Adding San Jose Printers"
+			lpadmin -p "SJPR01" -v "http://10.30.5.1" -P "/System/Library/Frameworks/ApplicationServices.framework/Versions/A/Frameworks/PrintCore.framework/Versions/A/Resources/Generic.ppd" -o "APOptionalDuplexer=True" -E
+			echo "SJPR01 Added!"
+
+		elif [ $siteCode == "ST" ]; then
+			echo "Adding Seattle Printers"
+			lpadmin -p "STPR01" -v "http://10.23.5.1" -P "/System/Library/Frameworks/ApplicationServices.framework/Versions/A/Frameworks/PrintCore.framework/Versions/A/Resources/Generic.ppd" -o "APOptionalDuplexer=True" -E
+			echo "STPR01 Added!"
+
+		elif [ $siteCode == "SG" ]; then
+			echo "Adding Ventura (101) Printers"
+			lpadmin -p "SGPR01" -v "http://10.11.5.1" -P "/System/Library/Frameworks/ApplicationServices.framework/Versions/A/Frameworks/PrintCore.framework/Versions/A/Resources/Generic.ppd" -o "APOptionalDuplexer=True" -E
+			echo "SGPR01 Added!"
+
+		elif [ $siteCode == "SY" ]; then
+			echo "Adding Sydney Printers"
+			lpadmin -p "SYPR01" -v "http://10.29.5.1" -P "/System/Library/Frameworks/ApplicationServices.framework/Versions/A/Frameworks/PrintCore.framework/Versions/A/Resources/Generic.ppd" -o "APOptionalDuplexer=True" -E
+			echo "SYPR01 Added!"
+			lpadmin -p "SYPR02" -v "http://10.29.5.2" -P "/System/Library/Frameworks/ApplicationServices.framework/Versions/A/Frameworks/PrintCore.framework/Versions/A/Resources/Generic.ppd" -o "APOptionalDuplexer=True" -E
+			echo "SYPR02 Added!"
+
+		elif [ $siteCode == "VT" ]; then
+			echo "Adding Ventura (HQ) Printers"
+			lpadmin -p "VTPR01" -v "http://10.1.5.1" -P "/System/Library/Frameworks/ApplicationServices.framework/Versions/A/Frameworks/PrintCore.framework/Versions/A/Resources/Generic.ppd" -o "APOptionalDuplexer=True" -E
+			echo "VTPR01 Added!"
+			lpadmin -p "VTPR02" -v "http://10.1.5.2" -P "/System/Library/Frameworks/ApplicationServices.framework/Versions/A/Frameworks/PrintCore.framework/Versions/A/Resources/Generic.ppd" -o "APOptionalDuplexer=True" -E
+			echo "VTPR02 Added!"
+			lpadmin -p "VTPR03" -v "http://10.1.5.3" -P "/System/Library/Frameworks/ApplicationServices.framework/Versions/A/Frameworks/PrintCore.framework/Versions/A/Resources/Generic.ppd" -o "APOptionalDuplexer=True" -E
+			echo "VTPR03 Added!"
+			lpadmin -p "VTPR06" -v "http://10.1.5.6" -P "/System/Library/Frameworks/ApplicationServices.framework/Versions/A/Frameworks/PrintCore.framework/Versions/A/Resources/Generic.ppd" -o "APOptionalDuplexer=True" -E
+			echo "VTPR06 Added!"
+			lpadmin -p "VTPR07" -v "http://10.1.5.7" -P "/System/Library/Frameworks/ApplicationServices.framework/Versions/A/Frameworks/PrintCore.framework/Versions/A/Resources/Generic.ppd" -o "APOptionalDuplexer=True" -E
+			echo "VTPR07 Added!"
+
+		elif [ $siteCode == "VN" ]; then
+			echo "Adding Ventura (101) Printers"
+			lpadmin -p "VNPR01" -v "http://10.9.5.1" -P "/System/Library/Frameworks/ApplicationServices.framework/Versions/A/Frameworks/PrintCore.framework/Versions/A/Resources/Generic.ppd" -o "APOptionalDuplexer=True" -E
+			echo "VNPR01 Added!"
+			lpadmin -p "VNPR12" -v "http://10.9.5.12" -P "/System/Library/Frameworks/ApplicationServices.framework/Versions/A/Frameworks/PrintCore.framework/Versions/A/Resources/Generic.ppd" -o "APOptionalDuplexer=True" -E
+			echo "VNPR12 Added!"
+			lpadmin -p "VNPR03" -v "http://10.9.5.3" -P "/System/Library/Frameworks/ApplicationServices.framework/Versions/A/Frameworks/PrintCore.framework/Versions/A/Resources/Generic.ppd" -o "APOptionalDuplexer=True" -E
+			echo "VNPR03 Added!"
+			lpadmin -p "VNPR04" -v "http://10.9.5.4" -P "/System/Library/Frameworks/ApplicationServices.framework/Versions/A/Frameworks/PrintCore.framework/Versions/A/Resources/Generic.ppd" -o "APOptionalDuplexer=True" -E
+			echo "VNPR04 Added!"
+		fi
+		
+		echo "Would you like to add any other Office Site Printers? (y/n)"
+		read printChoice
+	done
+
+	echo "Closing printer setup"
+}
+
 # Bash setup to get the computer on the AD Server
 
 if [ "$1" == "-renameComputer" ]; then
 	echo "What would you like to name the computer?"
+	printf ">: "
 	read compName
 	scutil --set ComputerName $compName
 	
 elif [ "$1" == "-ADJoin" ]; then
-
+	echo ""
 	echo "Don't forget to add this computer to SmartSheets"
+	system_profiler SPHardwareDataType |grep "Serial"
 	sleep 1
 	
-	read -p "Press Enter when ready to continue with the script"
+	echo ""
+	read -p "Press Enter when ready to continue with the script [ENTER]>: "
 
 	my_name=$(basename -- "$0")
 	# Make a copy of the script in the shared folder
+	echo ""
 	echo 'Making a copy of the script in the shared folder "/Users/Shared"'
 	mydir=$(dirname "$0")
 	cp "${mydir}"/"${my_name}" /Users/Shared
@@ -85,8 +251,11 @@ elif [ "$1" == "-ADJoin" ]; then
 	sleep 1
 	
 	# Modify the name of the computer
+	echo ""
 	echo "What would you like to name the computer (typically this is first initial last name)?"
+	printf ">: "
 	read compName
+	echo ""
 	echo "A pop up will appear twice to set the name, fill it in twice"
 	sleep 2
 	scutil --set ComputerName $compName
@@ -96,24 +265,31 @@ elif [ "$1" == "-ADJoin" ]; then
 	# Loop until the computer is properly binded
 	adSuccess="n"
 	while [ $adSuccess != "y" ]; do
+		echo ""
 		echo "Type in your AD Account (whole email address) name with binding rights"
+		printf ">: "
 		read adName
 		
+		echo ""
 		echo "Type in the AD Account Password:"
+		printf ">: "
 		read -s pwName
 		
 		# Connect it to the AD
 		dsconfigad -a $compName -domain thetradedesk.com -u $adName -p $pwName -mobile enable -mobileconfirm disable -localhome enable
-		
+		echo ""
 		echo "Was the AD Join successful? (y/n) This is case sensitive"
+		printf ">: "
 		read adSuccess
 	done
 	
 	# Keeps the admin password in a cache temporarily (or at least attempts to)
+	echo ""
 	echo "Type in the Admin password for this computer to start the app installation process (it may ask again while running)"
 	SUDOCREDCACHED=1
 	
 	while [ $SUDOCREDCACHED != 0 ]; do
+		printf ">: "
 		read -s adminPW
 		
 		echo "$adminPW" | sudo -S -v
@@ -126,7 +302,7 @@ elif [ "$1" == "-ADJoin" ]; then
 		fi
 	done
 
-	chmod a+x /Users/Shared/"${my_name}"
+	#chmod a+x /Users/Shared/"${my_name}"
 	
 	# Set the computer to not sleep
 	#echo "Setting the computer to never sleep as to not affect the downloads"
@@ -136,7 +312,7 @@ elif [ "$1" == "-ADJoin" ]; then
 	#sudo systemsetup -setdisplaysleep Never
 	#defaults -currentHost write com.apple.screensaver idleTime 0
 
-	
+	echo ""
 	echo "A lot of text is about to appear, but that's okay!"
 	sleep 2
 
@@ -151,6 +327,9 @@ elif [ "$1" == "-ADJoin" ]; then
 
 	# Install cask to download applications
 	brew install cask
+
+	# Install Duti to set default applications
+	brew install duti
 
 	# Set the cask application download location to the default application folder
 	# brew cask --caskroom=/Applications
@@ -187,17 +366,20 @@ elif [ "$1" == "-ADJoin" ]; then
 	focusApp 'Terminal'
 	
 	# Enable Firewall
+	echo ""
 	echo "Enabling FireWall"
 	sudo defaults write /Library/Preferences/com.apple.alf globalstate -int 1
 	echo "Firewall Enabled"
 	
 	# Add the login options for the computer
+	echo ""
 	echo "Open up System Preferences -> Users -> Login Options -> Add Current User, Desktop Admins and User Admins"
 	sleep 1
 	osascript -e 'activate application "System Preferences"'
 	focusApp 'Terminal'
 
-	read -p "Press Enter to continue once completed with the step above"
+	echo ""
+	read -p "Press Enter to continue once completed with the step above [ENTER]>: "
 	
 	echo "$adminPW" | sudo -S -v
 	
@@ -211,6 +393,7 @@ elif [ "$1" == "-ADJoin" ]; then
 	unzip SophosInstall.zip -d /Users/Shared/SophosInstall
 	
 	# Install Sophos onto the computer
+	echo ""
 	echo "Installing Sophos (if terminal locks up on sophos install, feel free to close once sophos completes)"
 	
 	sudo chmod a+x /Users/Shared/SophosInstall/Sophos\ Installer.app/Contents/MacOS/Sophos\ Installer
@@ -221,7 +404,7 @@ elif [ "$1" == "-ADJoin" ]; then
 	
 	open /Users/Shared/SophosInstall/Sophos\ Installer.app
 	
-	read -p "Press Enter once Sophos has been installed"
+	read -p "Press Enter once Sophos has been installed [ENTER]>: "
 
 	rm -rf SophosInstall.zip
 
@@ -229,23 +412,28 @@ elif [ "$1" == "-ADJoin" ]; then
 	rm -rf SophosInstall
 
 	# Update Operating System and preinstalled apps
+	echo ""
 	echo "Please check that all applications have been downloaded correctly."
 	sleep 2
+	echo ""
 	echo "Did all applications download properly? (y/n) do not capitalize."
+	printf ">: "
 	read downloadResponse
 	
 	if [ $downloadResponse != 'y' ]; then
 		sh /Users/Shared/"${my_name}" -appLoad
 	fi
 	
-	read -p "Press Enter when ready to restart the computer"
+	read -p "Press Enter when ready to restart the computer [ENTER]>: "
 
 	echo "$adminPW" | sudo -S sh -c "softwareupdate -ia && reboot"
 	
 	
 elif [ "$1" == "unbind" ]; then
+	echo ""
 	echo "Type in your AD Account (whole email address) name with binding rights"
 	read adName
+	printf ">: "
 	dsconfigad -f -r -u $adName
 	
 elif [ "$1" == "-setup" ]; then
@@ -258,8 +446,10 @@ elif [ "$1" == "-setup" ]; then
 
 	while [ $isAdmin != 1 ]; do
 	# Login as admin temporarily
+		echo ""
 		echo "Logging in as Local Admin to give this user admin rights"
 		sleep 1
+		echo ""
 		echo "Type in Local admin password (you may be prompted twice)"
 		su admin -c "sudo dscl . -merge /Groups/admin GroupMembership $currUser"
 
@@ -267,49 +457,66 @@ elif [ "$1" == "-setup" ]; then
 		then 
 			isAdmin=1
 		else 
+			echo ""
 			echo "Did not add user successfully, try again"
 		fi
 	done
 	# Keeps the admin password in a cache temporarily (or at least attempts to)
-	
+	echo ""
 	echo "Added $currUser as an administrator for the computer!"
 	sleep 1
 
 	# Load remaining applications and redo the layout
 	appLayout
 
+	# Set Adobe Acrobat as the default application
+	echo ""
+	echo "Setting some default applications."
+	sleep 1
+	duti -s com.adobe.reader .pdf all
+	echo ""
+	echo "Adobe Acrobat has been set as the default application"
+	sleep 1
+
 	# Download Meraki onto the computer
+	echo ""
 	echo "Opening Safari for you to install Meraki onto the computer"
 	sleep 2
 	open https://m.meraki.com
-	read -p "Press Enter once you have added the computer to Meraki"
+	read -p "Press Enter once you have added the computer to Meraki [ENTER]>: "
 	
+	echo ""
 	echo "Loading the second part of the Meraki installation"
 	sleep 2
 	curl -O https://n196.meraki.com/ci-downloads/121c309f9c83aa472e6bbd230cdf37c728582ab7/MerakiPCCAgent.pkg
 	open MerakiPCCAgent.pkg
-	read -p "Press Enter once you have finished the second part of the Meraki installation"
+	echo ""
+	read -p "Press Enter once you have finished the second part of the Meraki installation [ENTER]>: "
 	osascript -e 'quit application "Safari"'
 	
 	# Have the admin set the homepage information for the user
+	echo ""
 	echo "Opening Chrome so you can set the home page to myapps.microsoft.com (set as default app as well)"
 	sleep 2
-	osascript -e 'activate application "Google Chrome"'
-	read -p "Press Enter to continue"
+	open -a "Google Chrome"
+	read -p "Press Enter to continue [ENTER]>: "
 	osascript -e 'quit application "Google Chrome"'
 
+	echo ""
 	echo "Reopening chrome, turn on automatic updates and approve opening from the internet if you see that popup"
 	sleep 2
-	osascript -e 'activate application "Google Chrome"'
-	read -p "Press Enter to continue"
+	open -a "Google Chrome"
+	read -p "Press Enter to continue [ENTER]>: "
 	osascript -e 'quit application "Google Chrome"'
 
+	echo ""
 	echo "Opening Safari and set the home page to myapps.microsoft.com"
 	sleep 2
-	osascript -e 'activate application "Safari"'
-	read -p "Press Enter to continue"
+	open -a "Safari"
+	read -p "Press Enter to continue [ENTER]>: "
 	osascript -e 'quit application "Safari"'
 	
+	echo ""
 	echo "All done! Validate that all applications had been installed, running Tail request to validate Meraki is correctly running"
 	echo "If you see ping requests to the file then you know it is working properly, close script whenever and restart the computer"
 	sleep 2
@@ -318,10 +525,11 @@ elif [ "$1" == "-setup" ]; then
 	
 	sleep 3
 	
-	read -p "Time for cleanup, when ready to proceed press enter"
+	echo ""
+	read -p "Time for cleanup, when ready to proceed press enter. [ENTER]>: "
 	sleep 1
 	echo "Type in the admin password"
- 	
+	printf ">: "
 	su admin -c "sh /Users/Shared/'${my_name}' cleanup"
 	
 elif [ "$1" == "-appLoad" ]; then
@@ -393,7 +601,9 @@ elif [ "$1" == "cleanup" ]; then
 	sleep 2
 	yes "" | ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/uninstall)"
 	
-	read -p "Almost done. Don't forget to add the printer for this user's location! Press Enter once completed"
+	echo "Adding Printers"
+
+	printerCheck
 	
 	echo "All done!, feel free to close the terminal and restart the computer at this point."
 	
@@ -402,12 +612,14 @@ elif [ "$1" == "cleanup" ]; then
 
 elif [ "$1" == "-secureToken" ]; then
 	echo "Type in the userName of the user on this computer (first.lastname)"
+	printf ">: "
 	read currUser
 	
 	# Check if the user has the secure token enabled
 	sudo sysadminctl interactive -secureTokenStatus $currUser
 	
 	echo "Is the Secure Token Enabled? (y/n) capitalization matters."
+	printf ">: "
 	read secToken
 	
 	if [ $secToken == 'n' ]; then
@@ -545,6 +757,7 @@ elif [ "$1" == "-permissions" ]; then
 	sleep 2
 
 	echo "Type in Admin Password"
+	printf ">: "
 	sudo -v
 	# Add permissions for App Setup
 	sudo xattr -d -r com.apple.quarantine /Applications/Slack.app
@@ -557,12 +770,67 @@ elif [ "$1" == "-permissions" ]; then
 	sudo xattr -d -r com.apple.quarantine /Applications/Zoom.us.app
 	sudo xattr -d -r com.apple.quarantine /Applications/TeamViewer.app
 
+elif [ "$1" == "-printers" ]; then
+	printerCheck
+
 else
-	echo "Error: No arguments / incorrect args provided, to utilize this script please utilize one of the below options"
-	echo "1) -ADJoin  			- Joins the computer to the Active Directory."
-	echo "2) -renameComputer  	- Renames the computer for you."
-	echo "3) -setup   			- Sets up the user account (use this once you're on the user account)."
-	echo "4) -appLoad 			- Simply installs Homebrew and all of our applications."
-	echo "5) -sophos  			- Loads Sophos onto the computer."
-	echo "6) -noAD				- Loads all settings for setup without joining to domain."
+	my_name=$(basename -- "$0")
+	# Make a copy of the script in the shared folder
+	
+	mydir=$(dirname "$0")
+	#cp "${mydir}"/"${my_name}" /Users/Shared
+
+	clear
+
+	echo "+---------------------------------------------------+"
+	echo "| ___  ___             _____           _       _    |"
+	echo "| |  \/  |            /  ___|         (_)     | |   |"
+	echo "| | .  . | __ _  ___  \  --.  ___ _ __ _ _ __ | |_  |"
+	echo "| | |\/| |/ _' |/ __|  '--. \/ __| '__| | '_ \| __| |"
+	echo "| | |  | | (_| | (__  /\__/ / (__| |  | | |_) | |_  |"
+	echo "| \_|  |_/\__,_|\___| \____/ \___|_|  |_| .__/ \__| |"
+	echo "|                                       | |         |"
+	echo "|                                       |_|         |"
+	echo "+---------------------------------------------------+"
+	echo ""
+	echo "Welcome to the Mac Setup Script"
+	echo "Type in the number for the action you'd like to complete:"
+
+	echo "1) -ADJoin          - Joins the computer to the Active Directory."
+	echo "2) -setup           - Sets up the user account"
+	echo "3) -renameComputer  - Renames the computer for you."
+	echo "4) -printers        - Adds Printers via SiteCode"
+	echo "5) -quit            - Quit the setup application\n"
+	echo ""
+	printf ">: "
+	read userResponse 
+
+	if [ $userResponse == "1" ]; then
+		echo "Beginning ADJoin initial Setup"
+		sleep 2
+		caffeinate -u sh "${mydir}"/"${my_name}" -ADJoin
+
+	elif [ $userResponse == "2" ]; then
+		echo "Beginning Setup Process"
+		sleep 2
+		caffeinate -u sh "${mydir}"/"${my_name}" -setup
+
+	elif [ $userResponse == "3" ]; then
+		echo "Beginning Renaming Procedure"
+		sleep 2
+		caffeinate -u sh "${mydir}"/"${my_name}" -renameComputer
+
+	elif [ $userResponse == "4" ]; then
+		echo "Beginning Printer Setup Process"
+		sleep 2
+		caffeinate -u sh "${mydir}"/"${my_name}" -printers
+
+	else
+		echo "Quitting application, thank you!"
+		echo "Close this window at any time."
+		exit
+
+	fi
+
+
 fi
