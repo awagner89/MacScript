@@ -797,8 +797,8 @@ else
 	echo "Type in the number for the action you'd like to complete:"
 
 	echo "1) -ADJoin          - Joins the computer to the Active Directory."
-	echo "2) -renameComputer  - Renames the computer for you."
-	echo "3) -setup           - Sets up the user account"
+	echo "2) -setup           - Sets up the user account"
+	echo "3) -renameComputer  - Renames the computer for you."
 	echo "4) -printers        - Adds Printers via SiteCode"
 	echo "5) -quit            - Quit the setup application\n"
 	echo ""
@@ -811,14 +811,14 @@ else
 		caffeinate -u sh "${mydir}"/"${my_name}" -ADJoin
 
 	elif [ $userResponse == "2" ]; then
-		echo "Beginning Renaming Procedure"
-		sleep 2
-		caffeinate -u sh "${mydir}"/"${my_name}" -renameComputer
-
-	elif [ $userResponse == "3" ]; then
 		echo "Beginning Setup Process"
 		sleep 2
 		caffeinate -u sh "${mydir}"/"${my_name}" -setup
+
+	elif [ $userResponse == "3" ]; then
+		echo "Beginning Renaming Procedure"
+		sleep 2
+		caffeinate -u sh "${mydir}"/"${my_name}" -renameComputer
 
 	elif [ $userResponse == "4" ]; then
 		echo "Beginning Printer Setup Process"
