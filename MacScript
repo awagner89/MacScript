@@ -1,5 +1,14 @@
 #!/bin/bash
 
+
+# Global Variables for simplicity
+SUDOCREDCACHED=1
+compName = ""
+my_name=$(basename -- "$0")
+mydir=$(dirname "$0")
+
+
+
 # Focus an app
 function focusApp() {
     osascript <<EOT
@@ -222,6 +231,109 @@ function printerCheck() {
 	done
 
 	echo "Closing printer setup"
+}
+
+function computerRename() {
+	# Modify the name of the computer
+	echo ""
+	echo "What would you like to name the computer (typically this is first initial last name)?"
+	printf ">: "
+	read compName
+	echo ""
+	echo "A pop up will appear twice to set the name, fill it in twice"
+	sleep 2
+	scutil --set ComputerName $compName
+	scutil --set LocalHostName $compName
+}
+
+function activeDirectoryJoin() {
+	# Loop until the computer is properly binded
+	adSuccess="n"
+	while [ $adSuccess != "y" ]; do
+		echo ""
+		echo "Type in your AD Account (whole email address) name with binding rights"
+		printf ">: "
+		read adName
+		
+		echo ""
+		echo "Type in the AD Account Password:"
+		printf ">: "
+		read -s pwName
+		
+		# Connect it to the AD
+		dsconfigad -a $compName -domain thetradedesk.com -u $adName -p $pwName -mobile enable -mobileconfirm disable -localhome enable
+		echo ""
+		echo "Was the AD Join successful? (y/n) This is case sensitive"
+		printf ">: "
+		read adSuccess
+	done
+}
+
+function credentialCache() {
+	# Keeps the admin password in a cache temporarily (or at least attempts to)
+	echo ""
+	echo "Type in the Admin password for this computer to start the app installation process (it may ask again while running)"
+	SUDOCREDCACHED=1
+	
+	while [ $SUDOCREDCACHED != 0 ]; do
+		printf ">: "
+		read -s adminPW
+		
+		echo "$adminPW" | sudo -S -v
+		
+		sudo -nv 2> /dev/null
+		SUDOCREDCACHED=$?
+		if [ $SUDOCREDCACHED != 0 ] ; then 
+		  echo "Incorrect Password, try again"
+		  sudo -k
+		fi
+	done
+}
+
+function homebrewInstall() {
+	
+	echo ""
+	echo "A lot of text is about to appear, but that's okay!"
+	sleep 2
+
+	# Load homebrew onto computer temporarily
+	yes '' | /usr/bin/ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
+
+	# Make sure home brew is updated
+	brew update
+	
+	# Install DockUtil for the user setup
+	brew install dockutil
+
+	# Install cask to download applications
+	brew install cask
+
+	# Install Duti to set default applications
+	brew install duti
+}
+
+function permissionsFix() {
+	sudo xattr -d -r com.apple.quarantine /Applications/Slack.app
+	sudo xattr -d -r com.apple.quarantine /Applications/Google\ Chrome.app
+	sudo xattr -d -r com.apple.quarantine /Applications/Adobe\ Acrobat\ Reader\ DC.app
+	sudo xattr -d -r com.apple.quarantine /Applications/Microsoft\ Outlook.app
+	sudo xattr -d -r com.apple.quarantine /Applications/Microsoft\ Powerpoint.app
+	sudo xattr -d -r com.apple.quarantine /Applications/Microsoft\ Word.app
+	sudo xattr -d -r com.apple.quarantine /Applications/Microsoft\ Excel.app
+	sudo xattr -d -r com.apple.quarantine /Applications/Zoom.us.app
+	sudo xattr -d -r com.apple.quarantine /Applications/TeamViewer.app
+	sudo xattr -d -r com.apple.quarantine /Applications/ZoomOutlookPlugin
+	sudo xattr -d -r com.apple.quarantine /Applications/Dropbox.app
+}
+
+function smartSheetsPrompt() {
+	echo ""
+	echo "Don't forget to add this computer to SmartSheets"
+	system_profiler SPHardwareDataType |grep "Serial"
+	sleep 1
+	
+	echo ""
+	read -p "Press Enter when ready to continue with the script [ENTER]>: "
 }
 
 # Bash setup to get the computer on the AD Server
