@@ -239,7 +239,7 @@ elif [ "$1" == "-ADJoin" ]; then
 	sleep 1
 	
 	echo ""
-	read -p "Press Enter when ready to continue with the script [ENTER]"
+	read -p "Press Enter when ready to continue with the script [ENTER]>: "
 
 	my_name=$(basename -- "$0")
 	# Make a copy of the script in the shared folder
@@ -284,6 +284,7 @@ elif [ "$1" == "-ADJoin" ]; then
 	done
 	
 	# Keeps the admin password in a cache temporarily (or at least attempts to)
+	echo ""
 	echo "Type in the Admin password for this computer to start the app installation process (it may ask again while running)"
 	SUDOCREDCACHED=1
 	
@@ -311,7 +312,7 @@ elif [ "$1" == "-ADJoin" ]; then
 	#sudo systemsetup -setdisplaysleep Never
 	#defaults -currentHost write com.apple.screensaver idleTime 0
 
-	
+	echo ""
 	echo "A lot of text is about to appear, but that's okay!"
 	sleep 2
 
@@ -365,17 +366,20 @@ elif [ "$1" == "-ADJoin" ]; then
 	focusApp 'Terminal'
 	
 	# Enable Firewall
+	echo ""
 	echo "Enabling FireWall"
 	sudo defaults write /Library/Preferences/com.apple.alf globalstate -int 1
 	echo "Firewall Enabled"
 	
 	# Add the login options for the computer
+	echo ""
 	echo "Open up System Preferences -> Users -> Login Options -> Add Current User, Desktop Admins and User Admins"
 	sleep 1
 	osascript -e 'activate application "System Preferences"'
 	focusApp 'Terminal'
 
-	read -p "Press Enter to continue once completed with the step above"
+	echo ""
+	read -p "Press Enter to continue once completed with the step above [ENTER]>: "
 	
 	echo "$adminPW" | sudo -S -v
 	
@@ -389,6 +393,7 @@ elif [ "$1" == "-ADJoin" ]; then
 	unzip SophosInstall.zip -d /Users/Shared/SophosInstall
 	
 	# Install Sophos onto the computer
+	echo ""
 	echo "Installing Sophos (if terminal locks up on sophos install, feel free to close once sophos completes)"
 	
 	sudo chmod a+x /Users/Shared/SophosInstall/Sophos\ Installer.app/Contents/MacOS/Sophos\ Installer
@@ -399,7 +404,7 @@ elif [ "$1" == "-ADJoin" ]; then
 	
 	open /Users/Shared/SophosInstall/Sophos\ Installer.app
 	
-	read -p "Press Enter once Sophos has been installed"
+	read -p "Press Enter once Sophos has been installed [ENTER]>: "
 
 	rm -rf SophosInstall.zip
 
@@ -407,8 +412,10 @@ elif [ "$1" == "-ADJoin" ]; then
 	rm -rf SophosInstall
 
 	# Update Operating System and preinstalled apps
+	echo ""
 	echo "Please check that all applications have been downloaded correctly."
 	sleep 2
+	echo ""
 	echo "Did all applications download properly? (y/n) do not capitalize."
 	printf ">: "
 	read downloadResponse
@@ -417,12 +424,13 @@ elif [ "$1" == "-ADJoin" ]; then
 		sh /Users/Shared/"${my_name}" -appLoad
 	fi
 	
-	read -p "Press Enter when ready to restart the computer"
+	read -p "Press Enter when ready to restart the computer [ENTER]>: "
 
 	echo "$adminPW" | sudo -S sh -c "softwareupdate -ia && reboot"
 	
 	
 elif [ "$1" == "unbind" ]; then
+	echo ""
 	echo "Type in your AD Account (whole email address) name with binding rights"
 	read adName
 	printf ">: "
@@ -438,8 +446,10 @@ elif [ "$1" == "-setup" ]; then
 
 	while [ $isAdmin != 1 ]; do
 	# Login as admin temporarily
+		echo ""
 		echo "Logging in as Local Admin to give this user admin rights"
 		sleep 1
+		echo ""
 		echo "Type in Local admin password (you may be prompted twice)"
 		su admin -c "sudo dscl . -merge /Groups/admin GroupMembership $currUser"
 
@@ -447,11 +457,12 @@ elif [ "$1" == "-setup" ]; then
 		then 
 			isAdmin=1
 		else 
+			echo ""
 			echo "Did not add user successfully, try again"
 		fi
 	done
 	# Keeps the admin password in a cache temporarily (or at least attempts to)
-	
+	echo ""
 	echo "Added $currUser as an administrator for the computer!"
 	sleep 1
 
@@ -459,44 +470,53 @@ elif [ "$1" == "-setup" ]; then
 	appLayout
 
 	# Set Adobe Acrobat as the default application
+	echo ""
 	echo "Setting some default applications."
 	sleep 1
 	duti -s com.adobe.reader .pdf all
+	echo ""
 	echo "Adobe Acrobat has been set as the default application"
 	sleep 1
 
 	# Download Meraki onto the computer
+	echo ""
 	echo "Opening Safari for you to install Meraki onto the computer"
 	sleep 2
 	open https://m.meraki.com
-	read -p "Press Enter once you have added the computer to Meraki [ENTER]"
+	read -p "Press Enter once you have added the computer to Meraki [ENTER]>: "
 	
+	echo ""
 	echo "Loading the second part of the Meraki installation"
 	sleep 2
 	curl -O https://n196.meraki.com/ci-downloads/121c309f9c83aa472e6bbd230cdf37c728582ab7/MerakiPCCAgent.pkg
 	open MerakiPCCAgent.pkg
-	read -p "Press Enter once you have finished the second part of the Meraki installation [ENTER]"
+	echo ""
+	read -p "Press Enter once you have finished the second part of the Meraki installation [ENTER]>: "
 	osascript -e 'quit application "Safari"'
 	
 	# Have the admin set the homepage information for the user
+	echo ""
 	echo "Opening Chrome so you can set the home page to myapps.microsoft.com (set as default app as well)"
 	sleep 2
 	osascript -e 'activate application "Google Chrome"'
-	read -p "Press Enter to continue [ENTER]"
+	read -p "Press Enter to continue [ENTER]>: "
 	osascript -e 'quit application "Google Chrome"'
 
+	echo ""
 	echo "Reopening chrome, turn on automatic updates and approve opening from the internet if you see that popup"
 	sleep 2
 	osascript -e 'activate application "Google Chrome"'
-	read -p "Press Enter to continue [ENTER]"
+	read -p "Press Enter to continue [ENTER]>: "
 	osascript -e 'quit application "Google Chrome"'
 
+	echo ""
 	echo "Opening Safari and set the home page to myapps.microsoft.com"
 	sleep 2
 	osascript -e 'activate application "Safari"'
-	read -p "Press Enter to continue [ENTER]"
+	read -p "Press Enter to continue [ENTER]>: "
 	osascript -e 'quit application "Safari"'
 	
+	echo ""
 	echo "All done! Validate that all applications had been installed, running Tail request to validate Meraki is correctly running"
 	echo "If you see ping requests to the file then you know it is working properly, close script whenever and restart the computer"
 	sleep 2
@@ -505,7 +525,8 @@ elif [ "$1" == "-setup" ]; then
 	
 	sleep 3
 	
-	read -p "Time for cleanup, when ready to proceed press enter. [ENTER]"
+	echo ""
+	read -p "Time for cleanup, when ready to proceed press enter. [ENTER]>: "
 	sleep 1
 	echo "Type in the admin password"
 	printf ">: "
