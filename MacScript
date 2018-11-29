@@ -302,7 +302,7 @@ elif [ "$1" == "-ADJoin" ]; then
 		fi
 	done
 
-	chmod a+x /Users/Shared/"${my_name}"
+	#chmod a+x /Users/Shared/"${my_name}"
 	
 	# Set the computer to not sleep
 	#echo "Setting the computer to never sleep as to not affect the downloads"
