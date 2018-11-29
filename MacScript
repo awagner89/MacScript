@@ -808,22 +808,22 @@ else
 	if [ $userResponse == "1" ]; then
 		echo "Beginning ADJoin initial Setup"
 		sleep 2
-		caffeinate -i sh "${mydir}"/"${my_name}" -ADJoin
+		caffeinate -u sh "${mydir}"/"${my_name}" -ADJoin
 
 	elif [ $userResponse == "2" ]; then
 		echo "Beginning Renaming Procedure"
 		sleep 2
-		caffeinate -i sh "${mydir}"/"${my_name}" -renameComputer
+		caffeinate -u sh "${mydir}"/"${my_name}" -renameComputer
 
 	elif [ $userResponse == "3" ]; then
 		echo "Beginning Setup Process"
 		sleep 2
-		caffeinate -i sh "${mydir}"/"${my_name}" -setup
+		caffeinate -u sh "${mydir}"/"${my_name}" -setup
 
 	elif [ $userResponse == "4" ]; then
 		echo "Beginning Printer Setup Process"
 		sleep 2
-		caffeinate -i sh "${mydir}"/"${my_name}" -printers
+		caffeinate -u sh "${mydir}"/"${my_name}" -printers
 
 	else
 		echo "Quitting application, thank you!"
