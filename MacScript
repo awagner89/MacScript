@@ -498,21 +498,21 @@ elif [ "$1" == "-setup" ]; then
 	echo ""
 	echo "Opening Chrome so you can set the home page to myapps.microsoft.com (set as default app as well)"
 	sleep 2
-	osascript -e 'activate application "Google Chrome"'
+	open -a "Google Chrome"
 	read -p "Press Enter to continue [ENTER]>: "
 	osascript -e 'quit application "Google Chrome"'
 
 	echo ""
 	echo "Reopening chrome, turn on automatic updates and approve opening from the internet if you see that popup"
 	sleep 2
-	osascript -e 'activate application "Google Chrome"'
+	open -a "Google Chrome"
 	read -p "Press Enter to continue [ENTER]>: "
 	osascript -e 'quit application "Google Chrome"'
 
 	echo ""
 	echo "Opening Safari and set the home page to myapps.microsoft.com"
 	sleep 2
-	osascript -e 'activate application "Safari"'
+	open -a "Safari"
 	read -p "Press Enter to continue [ENTER]>: "
 	osascript -e 'quit application "Safari"'
 	
