@@ -6,6 +6,7 @@ SUDOCREDCACHED=1
 compName = ""
 my_name=$(basename -- "$0")
 mydir=$(dirname "$0")
+adminPW = ""
 
 
 
@@ -31,6 +32,27 @@ function reloadApps() {
 	
 	# Redo the application layout
 	appLayout
+}
+
+function updateSystem() {
+	read -p "Press Enter when ready to restart the computer [ENTER]>: "
+
+	echo "$adminPW" | sudo -S sh -c "softwareupdate -ia && reboot"
+}
+
+function appValidate() {
+	# Update Operating System and preinstalled apps
+	echo ""
+	echo "Please check that all applications have been downloaded correctly."
+	sleep 2
+	echo ""
+	echo "Did all applications download properly? (y/n) do not capitalize."
+	printf ">: "
+	read downloadResponse
+	
+	if [ $downloadResponse != 'y' ]; then
+		sh /Users/Shared/"${my_name}" -appLoad
+	fi
 }
 
 function appLayout() {
@@ -267,12 +289,20 @@ function activeDirectoryJoin() {
 		printf ">: "
 		read adSuccess
 	done
+
+	# Add the login options for the computer
+	echo ""
+	echo "Open up System Preferences -> Users -> Login Options -> Add Current User, Desktop Admins and User Admins"
+	sleep 1
+	osascript -e 'activate application "System Preferences"'
+	echo ""
+	read -p "Press Enter to continue once completed with the step above [ENTER]>: "
 }
 
 function credentialCache() {
 	# Keeps the admin password in a cache temporarily (or at least attempts to)
 	echo ""
-	echo "Type in the Admin password for this computer to start the app installation process (it may ask again while running)"
+	echo "Type in the Admin password here to cache it for further requests (still may prompt)"
 	SUDOCREDCACHED=1
 	
 	while [ $SUDOCREDCACHED != 0 ]; do
@@ -291,7 +321,8 @@ function credentialCache() {
 }
 
 function homebrewInstall() {
-	
+	# Add permissions for App Setup
+	"$adminPW" | sudo -S -v
 	echo ""
 	echo "A lot of text is about to appear, but that's okay!"
 	sleep 2
@@ -310,6 +341,13 @@ function homebrewInstall() {
 
 	# Install Duti to set default applications
 	brew install duti
+
+	# Cleanup the unneeded files
+	brew cleanup
+	
+	# Allow other users to utilize Homebrew
+	chgrp -R admin /usr/local/*
+	chmod -R g+w /usr/local/*
 }
 
 function permissionsFix() {
@@ -336,147 +374,15 @@ function smartSheetsPrompt() {
 	read -p "Press Enter when ready to continue with the script [ENTER]>: "
 }
 
-# Bash setup to get the computer on the AD Server
-
-if [ "$1" == "-renameComputer" ]; then
-	echo "What would you like to name the computer?"
-	printf ">: "
-	read compName
-	scutil --set ComputerName $compName
-	
-elif [ "$1" == "-ADJoin" ]; then
-	echo ""
-	echo "Don't forget to add this computer to SmartSheets"
-	system_profiler SPHardwareDataType |grep "Serial"
-	sleep 1
-	
-	echo ""
-	read -p "Press Enter when ready to continue with the script [ENTER]>: "
-
-	my_name=$(basename -- "$0")
+function scriptCopy() {
 	# Make a copy of the script in the shared folder
 	echo ""
 	echo 'Making a copy of the script in the shared folder "/Users/Shared"'
 	mydir=$(dirname "$0")
 	cp "${mydir}"/"${my_name}" /Users/Shared
-	
-	sleep 1
-	
-	# Modify the name of the computer
-	echo ""
-	echo "What would you like to name the computer (typically this is first initial last name)?"
-	printf ">: "
-	read compName
-	echo ""
-	echo "A pop up will appear twice to set the name, fill it in twice"
-	sleep 2
-	scutil --set ComputerName $compName
-	scutil --set LocalHostName $compName
-	
-	
-	# Loop until the computer is properly binded
-	adSuccess="n"
-	while [ $adSuccess != "y" ]; do
-		echo ""
-		echo "Type in your AD Account (whole email address) name with binding rights"
-		printf ">: "
-		read adName
-		
-		echo ""
-		echo "Type in the AD Account Password:"
-		printf ">: "
-		read -s pwName
-		
-		# Connect it to the AD
-		dsconfigad -a $compName -domain thetradedesk.com -u $adName -p $pwName -mobile enable -mobileconfirm disable -localhome enable
-		echo ""
-		echo "Was the AD Join successful? (y/n) This is case sensitive"
-		printf ">: "
-		read adSuccess
-	done
-	
-	# Keeps the admin password in a cache temporarily (or at least attempts to)
-	echo ""
-	echo "Type in the Admin password for this computer to start the app installation process (it may ask again while running)"
-	SUDOCREDCACHED=1
-	
-	while [ $SUDOCREDCACHED != 0 ]; do
-		printf ">: "
-		read -s adminPW
-		
-		echo "$adminPW" | sudo -S -v
-		
-		sudo -nv 2> /dev/null
-		SUDOCREDCACHED=$?
-		if [ $SUDOCREDCACHED != 0 ] ; then 
-		  echo "Incorrect Password, try again"
-		  sudo -k
-		fi
-	done
+}
 
-	#chmod a+x /Users/Shared/"${my_name}"
-	
-	# Set the computer to not sleep
-	#echo "Setting the computer to never sleep as to not affect the downloads"
-	#sleep 1
-	#sudo systemsetup -setsleep Never
-	#sudo systemsetup -setcomputersleep Never
-	#sudo systemsetup -setdisplaysleep Never
-	#defaults -currentHost write com.apple.screensaver idleTime 0
-
-	echo ""
-	echo "A lot of text is about to appear, but that's okay!"
-	sleep 2
-
-	# Load homebrew onto computer temporarily
-	yes '' | /usr/bin/ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
-
-	# Make sure home brew is updated
-	brew update
-	
-	# Install DockUtil for the user setup
-	brew install dockutil
-
-	# Install cask to download applications
-	brew install cask
-
-	# Install Duti to set default applications
-	brew install duti
-
-	# Set the cask application download location to the default application folder
-	# brew cask --caskroom=/Applications
-
-	# Install the necessary applications
-	reloadApps
-
-	# Set the applications to the dock properly
-	appLayout
-
-	# Add permissions for App Setup
-	"$adminPW" | sudo -S -v
-
-	sudo xattr -d -r com.apple.quarantine /Applications/Slack.app
-	sudo xattr -d -r com.apple.quarantine /Applications/Google\ Chrome.app
-	sudo xattr -d -r com.apple.quarantine /Applications/Adobe\ Acrobat\ Reader\ DC.app
-	sudo xattr -d -r com.apple.quarantine /Applications/Microsoft\ Outlook.app
-	sudo xattr -d -r com.apple.quarantine /Applications/Microsoft\ Powerpoint.app
-	sudo xattr -d -r com.apple.quarantine /Applications/Microsoft\ Word.app
-	sudo xattr -d -r com.apple.quarantine /Applications/Microsoft\ Excel.app
-	sudo xattr -d -r com.apple.quarantine /Applications/Zoom.us.app
-	sudo xattr -d -r com.apple.quarantine /Applications/TeamViewer.app
-	sudo xattr -d -r com.apple.quarantine /Applications/ZoomOutlookPlugin
-	sudo xattr -d -r com.apple.quarantine /Applications/Dropbox.app
-	
-	
-	# Cleanup the unneeded files
-	brew cleanup
-	
-	# Allow other users to utilize Homebrew
-	chgrp -R admin /usr/local/*
-	chmod -R g+w /usr/local/*
-	
-	focusApp 'Terminal'
-	
+function sophosSecurity() {
 	# Enable Firewall
 	echo ""
 	echo "Enabling FireWall"
@@ -522,31 +428,62 @@ elif [ "$1" == "-ADJoin" ]; then
 
 	# Removing the sophos installer
 	rm -rf SophosInstall
+}
 
-	# Update Operating System and preinstalled apps
-	echo ""
-	echo "Please check that all applications have been downloaded correctly."
-	sleep 2
-	echo ""
-	echo "Did all applications download properly? (y/n) do not capitalize."
-	printf ">: "
-	read downloadResponse
-	
-	if [ $downloadResponse != 'y' ]; then
-		sh /Users/Shared/"${my_name}" -appLoad
-	fi
-	
-	read -p "Press Enter when ready to restart the computer [ENTER]>: "
-
-	echo "$adminPW" | sudo -S sh -c "softwareupdate -ia && reboot"
-	
-	
-elif [ "$1" == "unbind" ]; then
+function unbindUser() {
 	echo ""
 	echo "Type in your AD Account (whole email address) name with binding rights"
 	read adName
 	printf ">: "
 	dsconfigad -f -r -u $adName
+}
+
+# Bash setup to get the computer on the AD Server
+
+if [ "$1" == "-renameComputer" ]; then
+	# Renames the computer for you
+	computerRename
+	
+elif [ "$1" == "-ADJoin" ]; then
+	# Prompt to add to Smart Sheets
+	smartSheetsPrompt
+
+	# Make a copy of the script in the shared folder
+	scriptCopy
+		
+	# Modify the name of the computer
+	computerRename
+	
+	# Bind to ad
+	activeDirectoryJoin
+	
+	# Keeps the admin password in a cache temporarily (or at least attempts to)
+	credentialCache
+
+	# Load Homebrew and utilities
+	homebrewInstall
+
+	# Install the necessary applications
+	reloadApps
+
+	# Set the applications to the dock properly
+	appLayout
+
+	# Validate applications downloaded properly
+	appValidate
+
+	# Fixes application permision once loaded
+	permissionsFix
+		
+	# Enable Firewall and Download Sophos
+	sophosSecurity
+	
+	# Update System
+	updateSystem
+	
+	
+elif [ "$1" == "unbind" ]; then
+	unbindUser
 	
 elif [ "$1" == "-setup" ]; then
 	my_name=$(basename -- "$0")
