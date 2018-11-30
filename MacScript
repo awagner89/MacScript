@@ -682,124 +682,38 @@ elif [ "$1" == "-secureToken" ]; then
 	fi
 		
 elif [ "$1" == "-noAD" ]; then
+	# Prompt to add to Smart Sheets
+	smartSheetsPrompt
+
 	# Make a copy of the script in the shared folder
-	my_name=$(basename -- "$0")
-	echo Making a copy of the script in the shared folder "/Users/Shared"
-	mydir=$(dirname "$0")
-	cp "${mydir}"/"${my_name}" /Users/Shared
-	
-	sleep 1
-	
+	scriptCopy
+		
 	# Modify the name of the computer
-	echo "What would you like to name the computer (typically this is first initial last name)?"
-	read compName
-	echo "A pop up will appear twice to set the name, fill it in twice"
-	sleep 2
-	scutil --set ComputerName $compName
-	scutil --set LocalHostName $compName
+	computerRename
 	
 	# Keeps the admin password in a cache temporarily (or at least attempts to)
-	echo "Type in the Admin password for this computer to start the app installation process (it may ask again while running)"
-	SUDOCREDCACHED=1
-	
-	while [ $SUDOCREDCACHED != 0 ]; do
-		read -s adminPW
-		
-		echo "$adminPW" | sudo -S -v
-		
-		sudo -nv 2> /dev/null
-		SUDOCREDCACHED=$?
-		if [ $SUDOCREDCACHED != 0 ] ; then 
-		  echo "Incorrect Password, try again"
-		  sudo -k
-		fi
-	done
-	
-	echo "A lot of text is about to appear, but that's okay!"
-	sleep 2
+	credentialCache
 
-	# Load homebrew onto computer temporarily
-	yes '' | /usr/bin/ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
-
-	# Make sure home brew is updated
-	brew update
-	
-	# Install DockUtil for the user setup
-	brew install dockutil
-
-	# Install cask to download applications
-	brew install cask
+	# Load Homebrew and utilities
+	homebrewInstall
 
 	# Install the necessary applications
 	reloadApps
 
 	# Set the applications to the dock properly
 	appLayout
-	
-	# Cleanup the unneeded files
-	brew cleanup
-	
-	# Allow other users to utilize Homebrew
-	chgrp -R admin /usr/local/*
-	chmod -R g+w /usr/local/*
-	
-	focusApp 'Terminal'
-	
-	# Enable Firewall
-	echo "Enabling FireWall"
-	sudo defaults write /Library/Preferences/com.apple.alf globalstate -int 1
-	echo "Firewall Enabled"
-	
-	# Add the login options for the computer
-	echo "Open up System Preferences -> Users -> Login Options -> Add Current User, Desktop Admins and User Admins"
-	sleep 1
-	osascript -e 'activate application "System Preferences"'
-	focusApp 'Terminal'
 
-	read -p "Press Enter to continue once completed with the step above"
-	
-	echo "$adminPW" | sudo -S -v
-	
-	# Download Sophos files
-	cd /Users/Shared
+	# Validate applications downloaded properly
+	appValidate
 
-	mkdir SophosInstall
+	# Fixes application permision once loaded
+	permissionsFix
 		
-	curl -O https://dzr-api-amzn-us-west-2-fa88.api-upe.p.hmr.sophos.com/api/download/3630f6d5ccfb1605df373ca13e22df13/SophosInstall.zip
+	# Enable Firewall and Download Sophos
+	sophosSecurity
 	
-	unzip SophosInstall.zip -d /Users/Shared/SophosInstall
-	
-	# Install Sophos onto the computer
-	echo "Installing Sophos (if terminal locks up on sophos install, feel free to close once sophos completes)"
-	
-	sudo chmod a+x /Users/Shared/SophosInstall/Sophos\ Installer.app/Contents/MacOS/Sophos\ Installer
-	sudo chmod a+x /Users/Shared/SophosInstall/Sophos\ Installer.app/Contents/MacOS/tools/com.sophos.bootstrap.helper
-
-	# Install Sophos from within folder (this will open another menu)
-	#sh -c "sudo /Users/Shared/SophosInstall/Sophos\ Installer.app/Contents/MacOS/Sophos\ Installer --install"
-	
-	open /Users/Shared/SophosInstall/Sophos\ Installer.app
-	
-	read -p "Press Enter once Sophos has been installed"
-
-	rm -rf SophosInstall.zip
-
-	# Removing the sophos installer
-	rm -rf SophosInstall
-
-	# Update Operating System and preinstalled apps
-	echo "Please check that all applications have been downloaded correctly."
-	sleep 2
-	echo "Did all applications download properly? (y/n) do not capitalize."
-	read downloadResponse
-	
-	if [ $downloadResponse != 'y' ]; then
-		reloadApps
-	fi
-	
-	read -p "Press Enter when ready to restart the computer"
-
-	echo "$adminPW" | sudo -S sh -c "softwareupdate -ia && reboot"
+	# Update System
+	updateSystem
 
 elif [ "$1" == "-permissions" ]; then
 	echo "Make sure you have su'd into admin before running this (or are already on the admin side)"
@@ -849,6 +763,7 @@ else
 	echo "2) -setup           - Sets up the user account"
 	echo "3) -renameComputer  - Renames the computer for you."
 	echo "4) -printers        - Adds Printers via SiteCode"
+	echo "5) -NOADJoin        - Sets up admin without AD (We Work)"
 	echo "5) -quit            - Quit the setup application\n"
 	echo ""
 	printf ">: "
