@@ -7,6 +7,7 @@ compName=""
 my_name=$(basename -- "$0")
 mydir=$(dirname "$0")
 adminPW=""
+currUser="$(whoami)"
 
 
 
@@ -438,6 +439,75 @@ function unbindUser() {
 	dsconfigad -f -r -u $adName
 }
 
+function addAdmin() {
+	isAdmin=0
+	
+	#echo "Type in the Admin Password to join computer as admin (may be prompted twice)."
+	#su admin -c "sudo dscl . -merge /Groups/admin GroupMembership $currUser"
+
+	while [ $isAdmin != 1 ]; do
+	# Login as admin temporarily
+		echo ""
+		echo "Logging in as Local Admin to give this user admin rights"
+		sleep 1
+		echo ""
+		echo "Type in Local admin password (you may be prompted twice)"
+		su admin -c "sudo dscl . -merge /Groups/admin GroupMembership $currUser"
+
+		if groups $currUser | grep -q -w admin; 
+		then 
+			isAdmin=1
+		else 
+			echo ""
+			echo "Did not add user successfully, try again"
+		fi
+	done
+	# Keeps the admin password in a cache temporarily (or at least attempts to)
+	echo ""
+	echo "Added $currUser as an administrator for the computer!"
+	sleep 1
+}
+
+function merakiSetup() {
+	echo ""
+	echo "Opening Safari for you to install Meraki onto the computer"
+	sleep 2
+	open https://m.meraki.com
+	read -p "Press Enter once you have added the computer to Meraki [ENTER]>: "
+	
+	echo ""
+	echo "Loading the second part of the Meraki installation"
+	sleep 2
+	curl -O https://n196.meraki.com/ci-downloads/121c309f9c83aa472e6bbd230cdf37c728582ab7/MerakiPCCAgent.pkg
+	open MerakiPCCAgent.pkg
+	echo ""
+	read -p "Press Enter once you have finished the second part of the Meraki installation [ENTER]>: "
+	osascript -e 'quit application "Safari"'
+}
+
+function secureTokenSetup() {
+	echo "Type in the userName of the user on this computer (first.lastname)"
+	printf ">: "
+	read currUser
+	
+	# Check if the user has the secure token enabled
+	sudo sysadminctl interactive -secureTokenStatus $currUser
+	
+	echo "Is the Secure Token Enabled? (y/n) capitalization matters."
+	printf ">: "
+	read secToken
+	
+	if [ $secToken == 'n' ]; then
+		echo "Running command to enable Secure Token."
+		sleep 2
+		sudo sysadminctl interactive -secureTokenOn $currUser -password -
+		
+		sudo sysadminctl interactive -secureTokenStatus $currUser
+		
+		echo "Done! Feel free to close terminal at this time."
+	fi
+}
+
 # Bash setup to get the computer on the AD Server
 
 if [ "$1" == "-renameComputer" ]; then
@@ -486,34 +556,8 @@ elif [ "$1" == "unbind" ]; then
 	unbindUser
 	
 elif [ "$1" == "-setup" ]; then
-	my_name=$(basename -- "$0")
-	currUser="$(whoami)"
-	isAdmin=0
-	
-	#echo "Type in the Admin Password to join computer as admin (may be prompted twice)."
-	#su admin -c "sudo dscl . -merge /Groups/admin GroupMembership $currUser"
-
-	while [ $isAdmin != 1 ]; do
-	# Login as admin temporarily
-		echo ""
-		echo "Logging in as Local Admin to give this user admin rights"
-		sleep 1
-		echo ""
-		echo "Type in Local admin password (you may be prompted twice)"
-		su admin -c "sudo dscl . -merge /Groups/admin GroupMembership $currUser"
-
-		if groups $currUser | grep -q -w admin; 
-		then 
-			isAdmin=1
-		else 
-			echo ""
-			echo "Did not add user successfully, try again"
-		fi
-	done
-	# Keeps the admin password in a cache temporarily (or at least attempts to)
-	echo ""
-	echo "Added $currUser as an administrator for the computer!"
-	sleep 1
+	# Make sure user is an administrator
+	addAdmin
 
 	# Load remaining applications and redo the layout
 	appLayout
@@ -528,20 +572,7 @@ elif [ "$1" == "-setup" ]; then
 	sleep 1
 
 	# Download Meraki onto the computer
-	echo ""
-	echo "Opening Safari for you to install Meraki onto the computer"
-	sleep 2
-	open https://m.meraki.com
-	read -p "Press Enter once you have added the computer to Meraki [ENTER]>: "
-	
-	echo ""
-	echo "Loading the second part of the Meraki installation"
-	sleep 2
-	curl -O https://n196.meraki.com/ci-downloads/121c309f9c83aa472e6bbd230cdf37c728582ab7/MerakiPCCAgent.pkg
-	open MerakiPCCAgent.pkg
-	echo ""
-	read -p "Press Enter once you have finished the second part of the Meraki installation [ENTER]>: "
-	osascript -e 'quit application "Safari"'
+	merakiSetup()
 	
 	# Have the admin set the homepage information for the user
 	echo ""
@@ -587,21 +618,6 @@ elif [ "$1" == "-appLoad" ]; then
 	echo "Type in the Admin password for this computer to start the app installation process (it may ask again while running)"
 	read -s adminPW
 	echo "$adminPW" | sudo -S -v
-	
-	# echo "A lot of text is about to appear, but that's okay!"
-	# sleep 2
-
-	# Load homebrew onto computer temporarily
-	# yes '' | /usr/bin/ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
-
-	# Make sure home brew is updated
-	#brew update
-	
-	# Install DockUtil for the user setup
-	# brew install dockutil
-
-	# Install cask to download applications
-	# brew install cask
 
 	# Install the necessary applications
 	reloadApps
@@ -617,32 +633,8 @@ elif [ "$1" == "-appLoad" ]; then
 	# chmod -R g+w /usr/local/*
 
 elif [ "$1" == "-sophos" ]; then
-	# Download Sophos files
-	cd /Users/Shared
-
-	mkdir SophosInstall
-		
-	curl -O https://dzr-api-amzn-us-west-2-fa88.api-upe.p.hmr.sophos.com/api/download/3630f6d5ccfb1605df373ca13e22df13/SophosInstall.zip
-	
-	unzip SophosInstall.zip -d /Users/Shared/SophosInstall
-	
-	# Install Sophos onto the computer
-	echo "Installing Sophos (if terminal locks up on sophos install, feel free to close once sophos completes)"
-	
-	sudo chmod a+x /Users/Shared/SophosInstall/Sophos\ Installer.app/Contents/MacOS/Sophos\ Installer
-	sudo chmod a+x /Users/Shared/SophosInstall/Sophos\ Installer.app/Contents/MacOS/tools/com.sophos.bootstrap.helper
-
-	# Install Sophos from within folder (this will open another menu)
-	# sudo /Users/Shared/SophosInstall/Sophos\ Installer.app/Contents/MacOS/Sophos\ Installer --install
-	
-	open /Users/Shared/SophosInstall/Sophos\ Installer.app
-	
-	read -p "Press Enter once Sophos has been installed"
-
-	rm -rf SophosInstall.zip
-
-	# Removing the sophos installer
-	rm -rf SophosInstall
+	# Load privacy settings
+	sophosSecurity
 	
 elif [ "$1" == "cleanup" ]; then
 	my_name=$(basename -- "$0")
@@ -660,26 +652,7 @@ elif [ "$1" == "cleanup" ]; then
 	exit
 
 elif [ "$1" == "-secureToken" ]; then
-	echo "Type in the userName of the user on this computer (first.lastname)"
-	printf ">: "
-	read currUser
-	
-	# Check if the user has the secure token enabled
-	sudo sysadminctl interactive -secureTokenStatus $currUser
-	
-	echo "Is the Secure Token Enabled? (y/n) capitalization matters."
-	printf ">: "
-	read secToken
-	
-	if [ $secToken == 'n' ]; then
-		echo "Running command to enable Secure Token."
-		sleep 2
-		sudo sysadminctl interactive -secureTokenOn $currUser -password -
-		
-		sudo sysadminctl interactive -secureTokenStatus $currUser
-		
-		echo "Done! Feel free to close terminal at this time."
-	fi
+	secureTokenSetup
 		
 elif [ "$1" == "-noAD" ]; then
 	# Prompt to add to Smart Sheets
@@ -716,24 +689,11 @@ elif [ "$1" == "-noAD" ]; then
 	updateSystem
 
 elif [ "$1" == "-permissions" ]; then
-	echo "Make sure you have su'd into admin before running this (or are already on the admin side)"
-	sleep 2
-
-	echo "Type in Admin Password"
-	printf ">: "
-	sudo -v
-	# Add permissions for App Setup
-	sudo xattr -d -r com.apple.quarantine /Applications/Slack.app
-	sudo xattr -d -r com.apple.quarantine /Applications/Google\ Chrome.app
-	sudo xattr -d -r com.apple.quarantine /Applications/Adobe\ Acrobat\ Reader\ DC.app
-	sudo xattr -d -r com.apple.quarantine /Applications/Microsoft\ Outlook.app
-	sudo xattr -d -r com.apple.quarantine /Applications/Microsoft\ Powerpoint.app
-	sudo xattr -d -r com.apple.quarantine /Applications/Microsoft\ Word.app
-	sudo xattr -d -r com.apple.quarantine /Applications/Microsoft\ Excel.app
-	sudo xattr -d -r com.apple.quarantine /Applications/Zoom.us.app
-	sudo xattr -d -r com.apple.quarantine /Applications/TeamViewer.app
+	# Fix Permissions
+	permissionsFix
 
 elif [ "$1" == "-printers" ]; then
+	# Add Printers
 	printerCheck
 
 else
