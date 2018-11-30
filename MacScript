@@ -3,10 +3,10 @@
 
 # Global Variables for simplicity
 SUDOCREDCACHED=1
-compName = ""
+compName=""
 my_name=$(basename -- "$0")
 mydir=$(dirname "$0")
-adminPW = ""
+adminPW=""
 
 
 
