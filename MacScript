@@ -607,7 +607,7 @@ elif [ "$1" == "-setup" ]; then
 	sleep 1
 
 	# Download Meraki onto the computer
-	merakiSetup()
+	merakiSetup
 	
 	# Have the admin set the homepage information for the user
 	echo ""
