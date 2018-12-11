@@ -346,6 +346,7 @@ function homebrewInstall() {
 	# Add permissions for App Setup
 	if [ $adminPW == "" ]; then
 		credentialCache
+	fi
 
 	"$adminPW" | sudo -S -v
 	echo ""
@@ -648,6 +649,9 @@ elif [ "$1" == "-setup" ]; then
 	
 elif [ "$1" == "-appLoad" ]; then
 	my_name=$(basename -- "$0")
+
+	brewCheck
+
 	# Keeps the admin password in a cache temporarily (or at least attempts to)
 	echo "Type in the Admin password for this computer to start the app installation process (it may ask again while running)"
 	read -s adminPW
