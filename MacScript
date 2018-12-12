@@ -52,7 +52,7 @@ function appValidate() {
 	read downloadResponse
 	
 	if [ $downloadResponse != 'y' ]; then
-		sh /Users/Shared/"${my_name}" -appLoad
+		caffeinate -u sh /Users/Shared/"${my_name}" -appLoad
 	fi
 }
 
@@ -346,9 +346,11 @@ function homebrewInstall() {
 	# Add permissions for App Setup
 	if [ $adminPW == "" ]; then
 		credentialCache
+	else
+		echo "$adminPW" | sudo -S -v
 	fi
 
-	"$adminPW" | sudo -S -v
+	sleep 1
 	echo ""
 	echo "A lot of text is about to appear, but that's okay!"
 	sleep 2
@@ -424,16 +426,6 @@ function sophosSecurity() {
 	echo "Enabling FireWall"
 	sudo defaults write /Library/Preferences/com.apple.alf globalstate -int 1
 	echo "Firewall Enabled"
-	
-	# Add the login options for the computer
-	echo ""
-	echo "Open up System Preferences -> Users -> Login Options -> Add Current User, Desktop Admins and User Admins"
-	sleep 1
-	osascript -e 'activate application "System Preferences"'
-	focusApp 'Terminal'
-
-	echo ""
-	read -p "Press Enter to continue once completed with the step above [ENTER]>: "
 	
 	echo "$adminPW" | sudo -S -v
 	
@@ -764,7 +756,7 @@ else
 	echo "3) -renameComputer  - Renames the computer for you."
 	echo "4) -printers        - Adds Printers via SiteCode"
 	echo "5) -NOADJoin        - Sets up admin without AD (We Work)"
-	echo "6) -quit            - Quit the setup application\n"
+	echo "6) -quit            - Quit the setup application"
 	echo ""
 	printf ">: "
 	read userResponse 
