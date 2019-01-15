@@ -577,6 +577,9 @@ elif [ "$1" == "-ADJoin" ]; then
 		
 	# Enable Firewall and Download Sophos
 	sophosSecurity
+
+	# Add printers
+	printerCheck
 	
 	# Update System
 	updateSystem
