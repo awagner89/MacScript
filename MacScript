@@ -316,7 +316,7 @@ function activeDirectoryJoin() {
 	echo ""
 	echo "Open up System Preferences -> Users -> Login Options -> Add Current User, Desktop Admins and User Admins"
 	sleep 1
-	osascript -e 'activate application "System Preferences"'
+	#osascript -e 'activate application "System Preferences"'
 	echo ""
 	read -p "Press Enter to continue once completed with the step above [ENTER]>: "
 }
@@ -571,6 +571,9 @@ elif [ "$1" == "-ADJoin" ]; then
 
 	# Fixes application permision once loaded
 	permissionsFix
+
+	# Download Meraki onto the computer
+	merakiSetup
 		
 	# Enable Firewall and Download Sophos
 	sophosSecurity
@@ -599,7 +602,7 @@ elif [ "$1" == "-setup" ]; then
 	sleep 1
 
 	# Download Meraki onto the computer
-	merakiSetup
+	#merakiSetup
 	
 	# Have the admin set the homepage information for the user
 	echo ""
