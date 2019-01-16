@@ -286,7 +286,7 @@ function computerRename() {
 	printf ">: "
 	read renameRequest
 
-	if [ $renameRequest == "y" || $renameRequest == "Y" ]; then
+	if [[ $renameRequest == "y" || $renameRequest == "Y" ]]; then
 		echo ""
 		echo "What would you like to name the computer (typically this is first initial last name)?"
 		printf ">: "
@@ -310,7 +310,7 @@ function activeDirectoryJoin() {
 	printf ">: "
 	read domainRequest
 
-	if [ $domainRequest == "y" || $domainRequest == "Y" ]; then
+	if [[ $domainRequest == "y" || $domainRequest == "Y" ]]; then
 		# Loop until the computer is properly binded
 		adSuccess="n"
 		while [ $adSuccess != "y" ]; do
@@ -554,7 +554,7 @@ function secureTokenSetup() {
 	printf ">: "
 	read secToken
 	
-	if [ $secToken == "n" || $secToken == "N" ]; then
+	if [[ $secToken == "n" || $secToken == "N" ]]; then
 		echo "Running command to enable Secure Token."
 		sleep 2
 		sudo sysadminctl interactive -secureTokenOn $currUser -password -
