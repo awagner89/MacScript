@@ -279,38 +279,62 @@ function printerCheck() {
 
 function computerRename() {
 	# Modify the name of the computer
-	echo ""
-	echo "What would you like to name the computer (typically this is first initial last name)?"
+	echo "Do you need to rename the computer? (y/n)"
 	printf ">: "
-	read compName
-	echo ""
-	echo "A pop up will appear twice to set the name, fill it in twice"
-	sleep 2
-	scutil --set ComputerName $compName
-	scutil --set LocalHostName $compName
+	read renameRequest
+
+	if [ $renameRequest == "y" || $renameRequest == "Y" ]; then
+		echo ""
+		echo "What would you like to name the computer (typically this is first initial last name)?"
+		printf ">: "
+		read compName
+		echo ""
+		echo "A pop up will appear twice to set the name, fill it in twice"
+		sleep 2
+		scutil --set ComputerName $compName
+		scutil --set LocalHostName $compName
+	else 
+		echo "Skipping computer naming prompt"
+		sleep 1
+		echo ""
+	fi
+	
 }
 
 function activeDirectoryJoin() {
-	# Loop until the computer is properly binded
-	adSuccess="n"
-	while [ $adSuccess != "y" ]; do
+	# Modify the name of the computer
+	echo "Do you need to add the computer to the domain? (y/n)"
+	printf ">: "
+	read domainRequest
+
+	if [ $domainRequest == "y" || $domainRequest == "Y" ]; then
+		# Loop until the computer is properly binded
+		adSuccess="n"
+		while [ $adSuccess != "y" ]; do
+			echo ""
+			echo "Type in your AD Account (whole email address) name with binding rights"
+			printf ">: "
+			read adName
+			
+			echo ""
+			echo "Type in the AD Account Password:"
+			printf ">: "
+			read -s pwName
+
+			echo ""
+			
+			# Connect it to the AD
+			dsconfigad -a $compName -domain thetradedesk.com -u $adName -p $pwName -mobile enable -mobileconfirm disable -localhome enable
+			echo ""
+			echo "Was the AD Join successful? (y/n) This is case sensitive"
+			printf ">: "
+			read adSuccess
+		done
+	else
+		echo "Skipping domain join process..."
+		sleep 1
 		echo ""
-		echo "Type in your AD Account (whole email address) name with binding rights"
-		printf ">: "
-		read adName
-		
-		echo ""
-		echo "Type in the AD Account Password:"
-		printf ">: "
-		read -s pwName
-		
-		# Connect it to the AD
-		dsconfigad -a $compName -domain thetradedesk.com -u $adName -p $pwName -mobile enable -mobileconfirm disable -localhome enable
-		echo ""
-		echo "Was the AD Join successful? (y/n) This is case sensitive"
-		printf ">: "
-		read adSuccess
-	done
+	fi
 
 	# Add the login options for the computer
 	echo ""
@@ -424,8 +448,10 @@ function sophosSecurity() {
 	# Enable Firewall
 	echo ""
 	echo "Enabling FireWall"
+	sleep 1
 	sudo defaults write /Library/Preferences/com.apple.alf globalstate -int 1
 	echo "Firewall Enabled"
+	sleep 1
 	
 	echo "$adminPW" | sudo -S -v
 	
@@ -440,7 +466,8 @@ function sophosSecurity() {
 	
 	# Install Sophos onto the computer
 	echo ""
-	echo "Installing Sophos (if terminal locks up on sophos install, feel free to close once sophos completes)"
+	echo "Installing Sophos"
+	sleep 1
 	
 	sudo chmod a+x /Users/Shared/SophosInstall/Sophos\ Installer.app/Contents/MacOS/Sophos\ Installer
 	sudo chmod a+x /Users/Shared/SophosInstall/Sophos\ Installer.app/Contents/MacOS/tools/com.sophos.bootstrap.helper
@@ -524,7 +551,7 @@ function secureTokenSetup() {
 	printf ">: "
 	read secToken
 	
-	if [ $secToken == 'n' ]; then
+	if [ $secToken == "n" || $secToken == "N" ]; then
 		echo "Running command to enable Secure Token."
 		sleep 2
 		sudo sysadminctl interactive -secureTokenOn $currUser -password -
@@ -717,9 +744,15 @@ elif [ "$1" == "-noAD" ]; then
 
 	# Fixes application permision once loaded
 	permissionsFix
+
+	# Download Meraki onto the computer
+	merakiSetup
 		
 	# Enable Firewall and Download Sophos
 	sophosSecurity
+
+	# Add printers
+	printerCheck
 	
 	# Update System
 	updateSystem
