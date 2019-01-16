@@ -116,6 +116,7 @@ function appLayout() {
 }
 
 function printerCheck() {
+	echo ""
 	echo "Would you like to add the office printers? (case matters)"
 	printf ">: "
 	read printChoice
