@@ -79,29 +79,31 @@ function appsDownloaded() {
 
 function appLayout() {
 	# Set the Dock to default values
-	defaults delete com.apple.dock; killall Dock
+	#defaults delete com.apple.dock; killall Dock
+	dockutil --remove all
 
 	# Remove all unneccessary Applications
-	dockutil --remove Siri
-	dockutil --remove Mail
-	dockutil --remove Contacts
-	dockutil --remove Calendar
-	dockutil --remove Notes
-	dockutil --remove Reminders
-	dockutil --remove Maps
-	dockutil --remove Photos
-	dockutil --remove Messages
-	dockutil --remove FaceTime
-	dockutil --remove Pages
-	dockutil --remove Numbers
-	dockutil --remove Keynote
-	dockutil --remove iTunes
-	dockutil --remove iBooks
-	dockutil --remove Safari
-	dockutil --remove App\ Store
-	dockutil --remove System\ Preferences
-	dockutil --remove News
+	#dockutil --remove Siri
+	#dockutil --remove Mail
+	#dockutil --remove Contacts
+	#dockutil --remove Calendar
+	#dockutil --remove Notes
+	#dockutil --remove Reminders
+	#dockutil --remove Maps
+	#dockutil --remove Photos
+	#dockutil --remove Messages
+	#dockutil --remove FaceTime
+	#dockutil --remove Pages
+	#dockutil --remove Numbers
+	#dockutil --remove Keynote
+	#dockutil --remove iTunes
+	#dockutil --remove iBooks
+	#dockutil --remove Safari
+	#dockutil --remove App\ Store
+	#dockutil --remove System\ Preferences
+	#dockutil --remove News
 
+	dockutil --add /Applications/LaunchPad.app
 	dockutil --add /Applications/Safari.app
 	dockutil --add /Applications/Google\ Chrome.app
 	dockutil --add /Applications/Slack.app
