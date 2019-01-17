@@ -572,7 +572,7 @@ function accountPasswordFix() {
 	if [[ $accountRequest == 1 ]]; then
 		echo "Type in local admin password."
 		sleep 1
-		su admin -c 'sudo dscl . -delete /User/"$userAccountName"'
+		su admin -c 'sudo dscl . -delete /User/"${userAccountName}"'
 		sleep 1
 		echo "Account removed, log out of user and have them login under Other User"
 		sleep 10
