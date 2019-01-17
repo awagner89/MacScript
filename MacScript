@@ -82,27 +82,8 @@ function appLayout() {
 	#defaults delete com.apple.dock; killall Dock
 	dockutil --remove all
 
-	# Remove all unneccessary Applications
-	#dockutil --remove Siri
-	#dockutil --remove Mail
-	#dockutil --remove Contacts
-	#dockutil --remove Calendar
-	#dockutil --remove Notes
-	#dockutil --remove Reminders
-	#dockutil --remove Maps
-	#dockutil --remove Photos
-	#dockutil --remove Messages
-	#dockutil --remove FaceTime
-	#dockutil --remove Pages
-	#dockutil --remove Numbers
-	#dockutil --remove Keynote
-	#dockutil --remove iTunes
-	#dockutil --remove iBooks
-	#dockutil --remove Safari
-	#dockutil --remove App\ Store
-	#dockutil --remove System\ Preferences
-	#dockutil --remove News
-
+	sleep 1
+	
 	dockutil --add /Applications/LaunchPad.app
 	dockutil --add /Applications/Safari.app
 	dockutil --add /Applications/Google\ Chrome.app
@@ -122,35 +103,37 @@ function printerCheck() {
 	echo "Would you like to add the office printers? (case matters)"
 	printf ">: "
 	read printChoice
-	
-	echo "To add the printers you will need to know the Site Code, would you like to see a list of the Site Codes? (y/n)"
-	printf ">: "
-	read siteList
 
-	if [ $siteList == "y" ]; then
-		echo "Site Code List:"
-		echo "-------------------------"
-		echo "BV = Bellevue"
-		echo "BD = Boulder"
-		echo "CH = Chicago"
-		echo "HH = Hamburg"
-		echo "HK = Hong Kong"
-		echo "IR = Irvine"
-		echo "LD = London"
-		echo "LA = Los Angeles"
-		echo "NY = New York"
-		echo "SF = San Francisco"
-		echo "SJ = San Jose"
-		echo "ST = Seattle"
-		echo "SG = Singapore"
-		echo "SY = Sydney"
-		echo "VT = Ventura (HQ 42)"
-		echo "VN = Ventura (101)\n"
-		sleep 1
+	if [[ $printChoice == "y" || $printChoice == "Y" ]]; then
+	
+		echo "To add the printers you will need to know the Site Code, would you like to see a list of the Site Codes? (y/n)"
+		printf ">: "
+		read siteList
+
+		if [ $siteList == "y" ]; then
+			echo "Site Code List:"
+			echo "-------------------------"
+			echo "BV = Bellevue"
+			echo "BD = Boulder"
+			echo "CH = Chicago"
+			echo "HH = Hamburg"
+			echo "HK = Hong Kong"
+			echo "IR = Irvine"
+			echo "LD = London"
+			echo "LA = Los Angeles"
+			echo "NY = New York"
+			echo "SF = San Francisco"
+			echo "SJ = San Jose"
+			echo "ST = Seattle"
+			echo "SG = Singapore"
+			echo "SY = Sydney"
+			echo "VT = Ventura (HQ 42)"
+			echo "VN = Ventura (101)\n"
+			sleep 1
+		fi
 	fi
 
-
-	while [ $printChoice == "y" ]; do
+	while [[ $printChoice == "y" || $printChoice == "Y"  ]]; do
 		echo "Type in the site code of the office you want to add the printers of (VT, VN, NY, CH, etc). Case Matters"
 		printf ">: "
 		read siteCode
