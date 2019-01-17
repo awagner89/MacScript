@@ -416,6 +416,10 @@ function brewCheck() {
 }
 
 function permissionsFix() {
+	echo ""
+	echo "Fixing permissions on the applications"
+
+
 	sudo xattr -d -r com.apple.quarantine /Applications/Slack.app
 	sudo xattr -d -r com.apple.quarantine /Applications/Google\ Chrome.app
 	sudo xattr -d -r com.apple.quarantine /Applications/Adobe\ Acrobat\ Reader\ DC.app
@@ -543,9 +547,11 @@ function merakiSetup() {
 }
 
 function secureTokenSetup() {
-	echo "Type in the userName of the user on this computer (first.lastname)"
-	printf ">: "
-	read currUser
+	echo ""
+	echo "Checking secure token status."
+	sleep 2
+	
+	currUser = $(whoami)
 	
 	# Check if the user has the secure token enabled
 	sudo sysadminctl interactive -secureTokenStatus $currUser
@@ -557,8 +563,8 @@ function secureTokenSetup() {
 	if [[ $secToken == "n" || $secToken == "N" ]]; then
 		echo "Running command to enable Secure Token."
 		sleep 2
-		sudo sysadminctl interactive -secureTokenOn $currUser -password -
-		
+		su admin -c "sudo sysadminctl interactive -secureTokenOn $currUser -password -"
+
 		sudo sysadminctl interactive -secureTokenStatus $currUser
 		
 		echo "Done! Feel free to close terminal at this time."
@@ -622,6 +628,9 @@ elif [ "$1" == "-setup" ]; then
 	# Make sure user is an administrator
 	addAdmin
 
+	# Make sure the secure token status is valid
+	secureTokenSetup
+
 	# Load remaining applications and redo the layout
 	appLayout
 
@@ -658,13 +667,6 @@ elif [ "$1" == "-setup" ]; then
 	open -a "Safari"
 	read -p "Press Enter to continue [ENTER]>: "
 	osascript -e 'quit application "Safari"'
-	
-	echo ""
-	echo "All done! Validate that all applications had been installed, running Tail request to validate Meraki is correctly running"
-	echo "If you see ping requests to the file then you know it is working properly, close script whenever and restart the computer"
-	sleep 2
-	
-	tail /var/log/m_agent.log
 	
 	sleep 3
 	
