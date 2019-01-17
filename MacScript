@@ -558,6 +558,7 @@ function secureTokenSetup() {
 
 function accountPasswordFix() {
 	userAccountName=$(whoami)
+	echo "$userAccountName"
 
 	echo "Type the number of the step you'd like to resolve:"
 	echo "1) Fix password (Remove user and log back in)"
