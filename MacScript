@@ -548,7 +548,7 @@ function secureTokenSetup() {
 		sleep 1
 		echo "You'll be first prompted for the admin password, then the user password"
 		sleep 1
-		su admin -c 'sudo sysadminctl interactive -secureTokenOn "$currUser" -password -'
+		su admin -c "sudo sysadminctl interactive -secureTokenOn '$currUser' -password -"
 
 		sudo sysadminctl interactive -secureTokenStatus $currUser
 		
