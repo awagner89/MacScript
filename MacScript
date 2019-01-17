@@ -110,7 +110,7 @@ function printerCheck() {
 		printf ">: "
 		read siteList
 
-		if [ $siteList == "y" ]; then
+		if [[ $siteList == "y" || $siteList == "Y" ]]; then
 			echo "Site Code List:"
 			echo "-------------------------"
 			echo "BV = Bellevue"
