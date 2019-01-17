@@ -534,7 +534,7 @@ function secureTokenSetup() {
 	echo "Checking secure token status."
 	sleep 2
 	
-	currUser=$(whoami)
+	currUser="$(whoami)"
 	
 	# Check if the user has the secure token enabled
 	sudo sysadminctl interactive -secureTokenStatus $currUser
