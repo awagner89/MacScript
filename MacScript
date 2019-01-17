@@ -545,13 +545,41 @@ function secureTokenSetup() {
 	
 	if [[ $secToken == "n" || $secToken == "N" ]]; then
 		echo "Running command to enable Secure Token."
-		sleep 2
+		sleep 1
+		echo "You'll be first prompted for the admin password, then the user password"
+		sleep 1
 		su admin -c "sudo sysadminctl interactive -secureTokenOn $currUser -password -"
 
 		sudo sysadminctl interactive -secureTokenStatus $currUser
 		
 		echo "Done! Feel free to close terminal at this time."
 	fi
+}
+
+function accountPasswordFix() {
+	userAccountName = $(whoami)
+
+	echo "Type the number of the step you'd like to resolve:"
+	echo "1) Fix password (Remove user and log back in)"
+	echo "2) Fix Secre Token (Post removal of user and alogging back in"
+	echo "3) Quit"
+	echo ""
+	printf ">: "
+
+	read accountRequest
+
+	if [[ $accountRequest == 1 ]]; then
+		echo "Type in local admin password."
+		sleep 1
+		su admin -c "sudo dscl . -delete /User/$userAccountName"
+		sleep 1
+		echo "Account removed, log out of user and have them login under Other User"
+		sleep 10
+	if [[ $accountRequest == 2 ]]; then
+		echo "Starting Secure Token Enablement"
+		sleep 2
+		secureTokenSetup
+
 }
 
 # Bash setup to get the computer on the AD Server
@@ -755,6 +783,8 @@ elif [ "$1" == "-printers" ]; then
 elif [ "$1" == "-loanerSetup" ]; then
 	brewCheck
 	
+elif [ "$1" == "-AccountFix" ]; then
+	accountPasswordFix
 else
 	my_name=$(basename -- "$0")
 	# Make a copy of the script in the shared folder
@@ -783,6 +813,7 @@ else
 	echo "3) -renameComputer  - Renames the computer for you."
 	echo "4) -printers        - Adds Printers via SiteCode"
 	echo "5) -NOADJoin        - Sets up admin without AD (We Work)"
+	echo "6) -AccountFix      - Fixes the disconnect on SSO and local PW"
 	echo "6) -quit            - Quit the setup application"
 	echo ""
 	printf ">: "
@@ -812,6 +843,11 @@ else
 		echo "Beginning Printer Setup Process"
 		sleep 2
 		caffeinate -u sh "${mydir}"/"${my_name}" -noAD
+
+	elif [ $userResponse == "2" ]; then
+		echo "Beginning Setup Process"
+		sleep 2
+		caffeinate -u sh "${mydir}"/"${my_name}" -AccountFix
 
 	else
 		echo "Quitting application, thank you!"
