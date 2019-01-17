@@ -815,7 +815,7 @@ else
 	echo "4) -printers        - Adds Printers via SiteCode"
 	echo "5) -NOADJoin        - Sets up admin without AD (We Work)"
 	echo "6) -AccountFix      - Fixes the disconnect on SSO and local PW"
-	echo "6) -quit            - Quit the setup application"
+	echo "7) -quit            - Quit the setup application"
 	echo ""
 	printf ">: "
 	read userResponse 
