@@ -845,8 +845,8 @@ else
 		sleep 2
 		caffeinate -u sh "${mydir}"/"${my_name}" -noAD
 
-	elif [ $userResponse == "2" ]; then
-		echo "Beginning Setup Process"
+	elif [ $userResponse == "6" ]; then
+		echo "Beginning Account Password Fix Process"
 		sleep 2
 		caffeinate -u sh "${mydir}"/"${my_name}" -AccountFix
 
