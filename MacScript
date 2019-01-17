@@ -575,10 +575,11 @@ function accountPasswordFix() {
 		sleep 1
 		echo "Account removed, log out of user and have them login under Other User"
 		sleep 10
-	if [[ $accountRequest == 2 ]]; then
+	elif [[ $accountRequest == 2 ]]; then
 		echo "Starting Secure Token Enablement"
 		sleep 2
 		secureTokenSetup
+	fi
 
 }
 
