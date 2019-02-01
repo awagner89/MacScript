@@ -736,9 +736,9 @@ elif [ "$1" == "cleanup" ]; then
 	sleep 2
 	yes "" | ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/uninstall)"
 	
-	echo "Adding Printers"
+	#echo "Adding Printers"
 
-	printerCheck
+	#printerCheck
 	
 	echo "All done!, feel free to close the terminal and restart the computer at this point."
 	
