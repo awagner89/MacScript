@@ -552,6 +552,7 @@ function secureTokenSetup() {
 	sleep 2
 	
 	currUser="$(whoami)"
+	echo $currUser
 	
 	# Check if the user has the secure token enabled
 	echo "You will be prompted a few times to type in the admin password, then once for the user password"
@@ -569,9 +570,9 @@ function secureTokenSetup() {
 		sleep 1
 		echo "If a popup appears, use admin and admin password."
 		sleep 1
-		su admin -c "sudo sysadminctl interactive -secureTokenOn '$currUser' -password -"
+		su admin -c "sudo sysadminctl interactive -secureTokenOn $currUser -password -"
 
-		sudo sysadminctl interactive -secureTokenStatus $currUser
+		su admin -c "sudo sysadminctl interactive -secureTokenStatus $currUser"
 		
 		echo "Done! Feel free to close terminal at this time."
 	fi
