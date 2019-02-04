@@ -90,17 +90,29 @@ function appLayout() {
 	sleep 1
 	
 	dockutil --add /Applications/LaunchPad.app
+	sleep .5
 	dockutil --add /Applications/Safari.app
+	sleep .5
 	dockutil --add /Applications/Google\ Chrome.app
+	sleep .5
 	dockutil --add /Applications/Slack.app
+	sleep .5
 	dockutil --add /Applications/Adobe\ Acrobat\ Reader\ DC.app
+	sleep .5
 	dockutil --add /Applications/Microsoft\ Outlook.app
+	sleep .5
 	dockutil --add /Applications/Microsoft\ Powerpoint.app
+	sleep .5
 	dockutil --add /Applications/Microsoft\ Word.app
+	sleep .5
 	dockutil --add /Applications/Microsoft\ Excel.app
+	sleep .5
 	dockutil --add /Applications/Zoom.us.app
+	sleep .5
 	dockutil --add /Applications/TeamViewer.app
+	sleep .5
 	dockutil --add /Applications/System\ Preferences.app
+	sleep .5
 }
 
 function printerCheck() {
@@ -542,7 +554,9 @@ function secureTokenSetup() {
 	currUser="$(whoami)"
 	
 	# Check if the user has the secure token enabled
-	sudo sysadminctl interactive -secureTokenStatus $currUser
+	echo "You will be prompted a few times to type in the admin password, then once for the user password"
+	sleep 1
+	su admin -c "sudo sysadminctl interactive -secureTokenStatus $currUser"
 	
 	echo "Is the Secure Token Enabled? (y/n) capitalization matters."
 	printf ">: "
@@ -551,7 +565,9 @@ function secureTokenSetup() {
 	if [[ $secToken == "n" || $secToken == "N" ]]; then
 		echo "Running command to enable Secure Token."
 		sleep 1
-		echo "You'll be first prompted for the admin password, then the user password"
+		echo "You'll be first prompted for the admin password twice, then the user password"
+		sleep 1
+		echo "If a popup appears, use admin and admin password."
 		sleep 1
 		su admin -c "sudo sysadminctl interactive -secureTokenOn '$currUser' -password -"
 
@@ -634,7 +650,7 @@ elif [ "$1" == "-ADJoin" ]; then
 	appLayout
 
 	# Check that applications downloaded successfully
-	appsDownloaded
+	#appsDownloaded
 
 	# Validate applications downloaded properly
 	appValidate
