@@ -57,6 +57,9 @@ function appValidate() {
 }
 
 function appsDownloaded() {
+	echo ""
+	echo "Checking to make sure all applications have downloaded successfully."
+	sleep 1
 	Apps=("Adobe Acrobat Reader DC.app", "Dropbox.app","Google Chrome.app", "Microsoft Excel.app", "Slack.app", "TeamViewer.app", "Zoom.us.app" )
 	downloadConfirmed = 1
 	app_path = ""
@@ -66,8 +69,10 @@ function appsDownloaded() {
 		app_path += "$i"
 		if [ $(find "/Applications" -name "$i") ]; then
 			echo "Confirmed $i installed!"
+			sleep .5
 		else
 			downloadConfirmed = 0
+			break;
 		fi
 	done
 
@@ -627,6 +632,9 @@ elif [ "$1" == "-ADJoin" ]; then
 
 	# Set the applications to the dock properly
 	appLayout
+
+	# Check that applications downloaded successfully
+	appsDownloaded
 
 	# Validate applications downloaded properly
 	appValidate
