@@ -8,6 +8,7 @@ my_name=$(basename -- "$0")
 mydir=$(dirname "$0")
 adminPW=""
 currUser="$(whoami)"
+rdpSetupConfirm=0
 
 
 
@@ -20,6 +21,34 @@ function focusApp() {
 EOT
 }
 
+function rdpSetup() {
+	echo "Does this user require a Remote Desktop Program? (y/n) (Applies to mobile device setups)"
+	printf ">: "
+	read rdpRequest
+	
+	if [[ $rdpRequest == "y" || $rdpRequest == "Y" ]]; then
+		rdpSetupConfirm=1
+		echo "Opening Windows Remote Desktop Beta Download, once downloaded unzip file and move to applications"
+		sleep 1
+		
+		open https://rink.hockeyapp.net/api/2/apps/5e0c144289a51fca2d3bfa39ce7f2b06/app_versions/264?format=zip&avtoken=3a760ab25f42caf3a342f88491f3eca9c496679b&download_origin=hockeyapp
+
+		echo "Downloading program, once downloaded we will proceed (next step in about 10-15 seconds)."
+		sleep 15
+
+		mv /Users/admin/Downloads/Microsoft\ Remote\ Desktop\ Beta.app /Applications
+
+		echo "Closing safari"
+		sleep 1
+		osascript -e 'quit application "Safari"'
+		
+		echo "Remote Desktop loaded.  Proceeding to next step."
+		sleep 2
+	fi
+
+	sleep 3
+}
+
 function reloadApps() {
 	# Install the necessary applications
 	brew cask install adobe-acrobat-reader
@@ -30,6 +59,9 @@ function reloadApps() {
 	brew cask install dropbox
 	brew cask install google-chrome
 	brew cask install slack
+
+	# See if user requires a remote desktop application
+	rdpSetup
 	
 	# Redo the application layout
 	appLayout
@@ -113,6 +145,11 @@ function appLayout() {
 	sleep .5
 	dockutil --add /Applications/System\ Preferences.app
 	sleep .5
+
+	if [ $rdpSetupConfirm == 1 ]; then
+		dockutil --add /Applications/Microsoft\ Remote\ Desktop\ Beta.app
+		sleep .5
+	fi
 }
 
 function printerCheck() {
@@ -713,7 +750,7 @@ elif [ "$1" == "-setup" ]; then
 	osascript -e 'quit application "Safari"'
 	
 	sleep 3
-	
+
 	echo ""
 	read -p "Time for cleanup, when ready to proceed press enter. [ENTER]>: "
 	sleep 1
