@@ -858,7 +858,8 @@ elif [ "$1" == "-loanerSetup" ]; then
 	
 elif [ "$1" == "-AccountFix" ]; then
 	accountPasswordFix
-
+elif [ "$1" == "-AccountFix" ]; then
+	applayout
 else
 	my_name=$(basename -- "$0")
 	# Make a copy of the script in the shared folder
@@ -889,7 +890,8 @@ else
 	echo "5) -NOADJoin        - Sets up admin without AD (We Work)"
 	echo "6) -AccountFix      - Fixes the disconnect on SSO and local PW"
 	echo "7) -secureToken     - Fixing the secure token"
-	echo "8) -quit            - Quit the setup application"
+	echo "8) -applayout       - Fixes app layout"
+	echo "9) -quit            - Quit the setup application"
 	echo ""
 	printf ">: "
 	read userResponse 
@@ -928,7 +930,10 @@ else
 		echo "Beginning Secure Token Fix Process"
 		sleep 2
 		caffeinate -u sh "${mydir}"/"${my_name}" -secureToken
-
+	elif [ $userResponse == "8" ]; then
+		echo "Fixing App layout"
+		sleep 2
+		caffeinate -u sh "${mydir}"/"${my_name}" -appLayout
 	else
 		echo "Quitting application, thank you!"
 		echo "Close this window at any time."
