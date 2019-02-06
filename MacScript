@@ -135,18 +135,31 @@ function appLayout() {
 	#dockutil --add /Applications/System\ Preferences.app
 
 	dockutil --remove all
+	sleep 1
 	dockutil --add /Applications/LaunchPad.app --no-restart
+	sleep .5
 	dockutil --add /Applications/Safari.app --no-restart
+	sleep .5
 	dockutil --add /Applications/Google\ Chrome.app --no-restart
+	sleep .5
 	dockutil --add /Applications/Slack.app --no-restart
+	sleep .5
 	dockutil --add /Applications/Adobe\ Acrobat\ Reader\ DC.app --no-restart
+	sleep .5
 	dockutil --add /Applications/Microsoft\ Outlook.app --no-restart
+	sleep .5
 	dockutil --add /Applications/Microsoft\ Powerpoint.app --no-restart
+	sleep .5
 	dockutil --add /Applications/Microsoft\ Word.app --no-restart
+	sleep .5
 	dockutil --add /Applications/Microsoft\ Excel.app --no-restart
+	sleep .5
 	dockutil --add /Applications/Zoom.us.app --no-restart
+	sleep .5
 	dockutil --add /Applications/TeamViewer.app --no-restart
+	sleep .5
 	dockutil --add /Applications/System\ Preferences.app
+	sleep .5
 
 	if [ $rdpSetupConfirm == 1 ]; then
 		dockutil --add /Applications/Microsoft\ Remote\ Desktop\ Beta.app
