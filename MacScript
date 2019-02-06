@@ -117,34 +117,37 @@ function appsDownloaded() {
 function appLayout() {
 	# Set the Dock to default values
 	#defaults delete com.apple.dock; killall Dock
-	dockutil --remove all
+	#dockutil --remove all
 
-	sleep 1
-	
-	dockutil --add /Applications/LaunchPad.app
-	sleep .5
-	dockutil --add /Applications/Safari.app
-	sleep .5
-	dockutil --add /Applications/Google\ Chrome.app
-	sleep .5
-	dockutil --add /Applications/Slack.app
-	sleep .5
-	dockutil --add /Applications/Adobe\ Acrobat\ Reader\ DC.app
-	sleep .5
-	dockutil --add /Applications/Microsoft\ Outlook.app
-	sleep .5
-	dockutil --add /Applications/Microsoft\ Powerpoint.app
-	sleep .5
-	dockutil --add /Applications/Microsoft\ Word.app
-	sleep .5
-	dockutil --add /Applications/Microsoft\ Excel.app
-	sleep .5
-	dockutil --add /Applications/Zoom.us.app
-	sleep .5
-	dockutil --add /Applications/TeamViewer.app
-	sleep .5
-	dockutil --add /Applications/System\ Preferences.app
-	sleep .5
+	#sleep 1
+	#dockutil --add /Applications/Firefox.app
+	#dockutil --add /Applications/LaunchPad.app
+	#dockutil --add /Applications/Safari.app
+	#dockutil --add /Applications/Google\ Chrome.app
+	#dockutil --add /Applications/Slack.app
+	#dockutil --add /Applications/Adobe\ Acrobat\ Reader\ DC.app
+	#dockutil --add /Applications/Microsoft\ Outlook.app
+	#dockutil --add /Applications/Microsoft\ Powerpoint.app
+	#dockutil --add /Applications/Microsoft\ Word.app
+	#dockutil --add /Applications/Microsoft\ Excel.app
+	#dockutil --add /Applications/Zoom.us.app
+	#dockutil --add /Applications/TeamViewer.app
+	#dockutil --add /Applications/System\ Preferences.app
+
+	dockutil --remove all --no-restart '/System/Library/User Template/English.lproj'
+	dockutil --add /Applications/Firefox.app --no-restart '/System/Library/User Template/English.lproj'
+	dockutil --add /Applications/LaunchPad.app --no-restart '/System/Library/User Template/English.lproj'
+	dockutil --add /Applications/Safari.app --no-restart '/System/Library/User Template/English.lproj'
+	dockutil --add /Applications/Google\ Chrome.app --no-restart '/System/Library/User Template/English.lproj'
+	dockutil --add /Applications/Slack.app --no-restart '/System/Library/User Template/English.lproj'
+	dockutil --add /Applications/Adobe\ Acrobat\ Reader\ DC.app --no-restart '/System/Library/User Template/English.lproj'
+	dockutil --add /Applications/Microsoft\ Outlook.app --no-restart '/System/Library/User Template/English.lproj'
+	dockutil --add /Applications/Microsoft\ Powerpoint.app --no-restart '/System/Library/User Template/English.lproj'
+	dockutil --add /Applications/Microsoft\ Word.app --no-restart '/System/Library/User Template/English.lproj'
+	dockutil --add /Applications/Microsoft\ Excel.app --no-restart '/System/Library/User Template/English.lproj'
+	dockutil --add /Applications/Zoom.us.app --no-restart '/System/Library/User Template/English.lproj'
+	dockutil --add /Applications/TeamViewer.app --no-restart '/System/Library/User Template/English.lproj'
+	dockutil --add /Applications/System\ Preferences.app --no-restart '/System/Library/User Template/English.lproj'
 
 	if [ $rdpSetupConfirm == 1 ]; then
 		dockutil --add /Applications/Microsoft\ Remote\ Desktop\ Beta.app
