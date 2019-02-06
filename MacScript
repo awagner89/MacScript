@@ -153,6 +153,9 @@ function appLayout() {
 		dockutil --add /Applications/Microsoft\ Remote\ Desktop\ Beta.app
 		sleep .5
 	fi
+
+	echo "Layout Completed"
+	sleep 2
 }
 
 function printerCheck() {
@@ -858,8 +861,10 @@ elif [ "$1" == "-loanerSetup" ]; then
 	
 elif [ "$1" == "-AccountFix" ]; then
 	accountPasswordFix
+	exit
 elif [ "$1" == "-AccountFix" ]; then
 	applayout
+	exit
 else
 	my_name=$(basename -- "$0")
 	# Make a copy of the script in the shared folder
