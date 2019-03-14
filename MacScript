@@ -92,18 +92,18 @@ function appsDownloaded() {
 	echo ""
 	echo "Checking to make sure all applications have downloaded successfully."
 	sleep 1
-	Apps=("Adobe Acrobat Reader DC.app", "Dropbox.app","Google Chrome.app", "Microsoft Excel.app", "Slack.app", "TeamViewer.app", "Zoom.us.app" )
-	downloadConfirmed = 1
-	app_path = ""
+	Apps=( "Adobe Acrobat Reader DC.app" "Dropbox.app" "Google Chrome.app" "Microsoft Excel.app" "Slack.app" "TeamViewer.app" "Zoom.us.app" )
+	downloadConfirmed=1
+	app_path=""
 	for i in "${Apps[@]}"
 	do
-		app_path = "/Applications"
+		app_path="/Applications"
 		app_path += "$i"
-		if [ $(find "/Applications" -name "$i") ]; then
+		if [ $(find "/Applications/" -name "$i") ]; then
 			echo "Confirmed $i installed!"
 			sleep .5
 		else
-			downloadConfirmed = 0
+			downloadConfirmed=0
 			break;
 		fi
 	done
@@ -158,13 +158,12 @@ function appLayout() {
 	sleep .5
 	dockutil --add /Applications/TeamViewer.app --no-restart
 	sleep .5
-	dockutil --add /Applications/System\ Preferences.app
-	sleep .5
-
 	if [ $rdpSetupConfirm == 1 ]; then
-		dockutil --add /Applications/Microsoft\ Remote\ Desktop\ Beta.app
+		dockutil --add /Applications/Microsoft\ Remote\ Desktop\ Beta.app --no-restart
 		sleep .5
 	fi
+	dockutil --add /Applications/System\ Preferences.app
+	sleep .5
 
 	echo "Layout Completed"
 	sleep 2
@@ -292,7 +291,7 @@ function printerCheck() {
 			echo "STPR01 Added!"
 
 		elif [ $siteCode == "SG" ]; then
-			echo "Adding Ventura (101) Printers"
+			echo "Adding Singapore Printers"
 			lpadmin -p "SGPR01" -v "http://10.11.5.1" -P "/System/Library/Frameworks/ApplicationServices.framework/Versions/A/Frameworks/PrintCore.framework/Versions/A/Resources/Generic.ppd" -o "APOptionalDuplexer=True" -E
 			echo "SGPR01 Added!"
 
@@ -673,7 +672,7 @@ if [ "$1" == "-renameComputer" ]; then
 	# Renames the computer for you
 	computerRename
 	
-elif [ "$1" == "-ADJoin" ]; then
+elif [ "$1" == "-fullSetup" ]; then
 	# Prompt to add to Smart Sheets
 	smartSheetsPrompt
 
@@ -697,6 +696,97 @@ elif [ "$1" == "-ADJoin" ]; then
 
 	# Set the applications to the dock properly
 	appLayout
+
+	# Check that applications downloaded successfully
+	#appsDownloaded
+
+	# Validate applications downloaded properly
+	appValidate
+
+	# Fixes application permision once loaded
+	permissionsFix
+
+	# Download Meraki onto the computer
+	merakiSetup
+		
+	# Enable Firewall and Download Sophos
+	sophosSecurity
+
+	# Add printers
+	printerCheck
+
+	# Set Adobe Acrobat as the default application
+	echo ""
+	echo "Setting some default applications."
+	sleep 1
+	duti -s com.adobe.reader .pdf all
+	echo ""
+	echo "Adobe Acrobat has been set as the default application"
+	sleep 1
+	
+	# Have the admin set the homepage information for the user
+	echo ""
+	echo "Opening Chrome so you can set the home page to myapps.microsoft.com (set as default app as well)"
+	sleep 2
+	open -a "Google Chrome"
+	read -p "Press Enter to continue [ENTER]>: "
+	osascript -e 'quit application "Google Chrome"'
+
+	echo ""
+	echo "Reopening chrome, turn on automatic updates and approve opening from the internet if you see that popup"
+	sleep 2
+	open -a "Google Chrome"
+	read -p "Press Enter to continue [ENTER]>: "
+	osascript -e 'quit application "Google Chrome"'
+
+	echo ""
+	echo "Opening Safari and set the home page to myapps.microsoft.com"
+	sleep 2
+	open -a "Safari"
+	read -p "Press Enter to continue [ENTER]>: "
+	osascript -e 'quit application "Safari"'
+	
+	sleep 3
+
+	echo ""
+	read -p "Time for cleanup, when ready to proceed press enter. [ENTER]>: "
+	sleep 1
+
+	echo "$adminPW" | sudo -S -v
+
+	sh /Users/Shared/'${my_name}' cleanup
+
+	#echo "type in the first.lastname of the user we are adding to this computer"
+	#read
+	#ditto /Users/admin /Users/
+	
+	# Update System
+	updateSystem
+
+elif [ "$1" == "-ADJoin" ]; then
+	# Prompt to add to Smart Sheets
+	smartSheetsPrompt
+
+	# Make a copy of the script in the shared folder
+	scriptCopy
+		
+	# Modify the name of the computer
+	computerRename
+	
+	# Bind to ad
+	activeDirectoryJoin
+	
+	# Keeps the admin password in a cache temporarily (or at least attempts to)
+	credentialCache
+
+	# Load Homebrew and utilities
+	homebrewInstall
+
+	# Install the necessary applications
+	reloadApps
+
+	# Set the applications to the dock properly
+	#appLayout
 
 	# Check that applications downloaded successfully
 	#appsDownloaded
@@ -741,9 +831,6 @@ elif [ "$1" == "-setup" ]; then
 	echo ""
 	echo "Adobe Acrobat has been set as the default application"
 	sleep 1
-
-	# Download Meraki onto the computer
-	#merakiSetup
 	
 	# Have the admin set the homepage information for the user
 	echo ""
@@ -874,7 +961,7 @@ elif [ "$1" == "-loanerSetup" ]; then
 elif [ "$1" == "-AccountFix" ]; then
 	accountPasswordFix
 	exit
-elif [ "$1" == "-AccountFix" ]; then
+elif [ "$1" == "-appLayout" ]; then
 	applayout
 	exit
 else
@@ -900,18 +987,24 @@ else
 	echo "Welcome to the Mac Setup Script"
 	echo "Type in the number for the action you'd like to complete:"
 
-	echo "1) -ADJoin          - Joins the computer to the Active Directory."
-	echo "2) -setup           - Sets up the user account"
-	echo "3) -renameComputer  - Renames the computer for you."
-	echo "4) -printers        - Adds Printers via SiteCode"
-	echo "5) -NOADJoin        - Sets up admin without AD (We Work)"
-	echo "6) -AccountFix      - Fixes the disconnect on SSO and local PW"
-	echo "7) -secureToken     - Fixing the secure token"
-	echo "8) -applayout       - Fixes app layout"
-	echo "9) -quit            - Quit the setup application"
+	#echo "0) Full Setup       - Sets user up fully from admin (DO NOT USE)"
+	echo "1) Setup Admin(AD)  - Joins the computer to the Active Directory."
+	echo "2) Setup User       - Sets up the user account"
+	echo "3) Rename Computer  - Renames the computer for you."
+	echo "4) Add Printers     - Adds Printers via SiteCode"
+	echo "5) Admin w/o AD     - Sets up admin without AD (We Work)"
+	echo "6) Account PW Fix   - Fixes the disconnect on SSO and local PW"
+	echo "7) Secure Token Fix - Fixing the secure token"
+	echo "8) Redo App Layout  - Fixes app layout"
+	echo "9) Quit             - Quit the setup application"
 	echo ""
 	printf ">: "
 	read userResponse 
+
+	#if [ $userResponse == "0" ]; then
+	#	echo "Beginning Full Setup"
+	#	sleep 2
+	#	caffeinate -u sh "${mydir}"/"${my_name}" -fullSetup
 
 	if [ $userResponse == "1" ]; then
 		echo "Beginning ADJoin initial Setup"
@@ -954,6 +1047,7 @@ else
 	else
 		echo "Quitting application, thank you!"
 		echo "Close this window at any time."
+		sleep 5
 		exit
 
 	fi
