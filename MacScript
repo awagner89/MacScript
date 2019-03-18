@@ -70,6 +70,11 @@ function reloadApps() {
 function updateSystem() {
 	read -p "Press Enter when ready to restart the computer [ENTER]>: "
 
+	# Should allow the "Other" user to appear on startup more consistently
+	echo "$adminPW" | sudo defaults write /Library/Preferences/com.apple.loginwindow SHOWOTHERUSERS_MANAGED -bool TRUE
+
+	sleep 1
+
 	echo "$adminPW" | sudo -S sh -c "softwareupdate -ia && reboot"
 }
 
