@@ -518,6 +518,15 @@ function sophosSecurity() {
 	sudo defaults write /Library/Preferences/com.apple.alf globalstate -int 1
 	echo "Firewall Enabled"
 	sleep 1
+
+	echo "Enabling Fast User Switching"
+	sleep 1
+	sudo defaults write /Library/Preferences/.GlobalPreferences MultipleSessionEnabled -bool 'yes'
+	sudo defaults write ~/Library/Preferences/com.apple.systemuiserver.plist menuExtras -array-add '<string>/System/Library/CoreServices/Menu Extras/User.menu</string>'
+
+
+	echo "Fast User Switching Enabled"
+	sleep 1
 	
 	echo "$adminPW" | sudo -S -v
 	
