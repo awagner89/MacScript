@@ -59,6 +59,7 @@ function reloadApps() {
 	brew cask install dropbox
 	brew cask install google-chrome
 	brew cask install slack
+	brew cask install logitech-options
 
 	# See if user requires a remote desktop application
 	rdpSetup
@@ -455,6 +456,9 @@ function homebrewInstall() {
 
 	# Install Duti to set default applications
 	brew install duti
+
+	# Install the tap for Device Drivers
+	brew tap homebrew/cask-drivers
 
 	# Cleanup the unneeded files
 	brew cleanup
