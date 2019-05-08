@@ -494,6 +494,7 @@ function permissionsFix() {
 	sudo xattr -d -r com.apple.quarantine /Applications/TeamViewer.app
 	sudo xattr -d -r com.apple.quarantine /Applications/ZoomOutlookPlugin
 	sudo xattr -d -r com.apple.quarantine /Applications/Dropbox.app
+	sudo xattr -d -r com.apple.quarantine /Applications/Logi\ Options.app
 }
 
 function smartSheetsPrompt() {
